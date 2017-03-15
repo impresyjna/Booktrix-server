@@ -39,7 +39,11 @@ group :development do
 end
 
 group :test do
-  gem "rspec-rails", "~> 2.14"
+  gem "rspec-core", :github => "rspec/rspec-core"
+  gem "rspec-expectations", :github => "rspec/rspec-expectations"
+  gem "rspec-mocks", :github => "rspec/rspec-mocks"
+  gem "rspec-support", :github => "rspec/rspec-support"
+  gem "rspec-rails", :github => "rspec/rspec-rails"
   gem "factory_girl_rails"
   gem 'ffaker'
   gem "shoulda-matchers", "~>2.5"
