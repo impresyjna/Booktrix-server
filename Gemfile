@@ -27,7 +27,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'sqlite3'
-  gem "shoulda-matchers", "~>2.5"
+  gem "shoulda-matchers"
   gem "rspec-core", :github => "rspec/rspec-core"
   gem "rspec-expectations", :github => "rspec/rspec-expectations"
   gem "rspec-mocks", :github => "rspec/rspec-mocks"
@@ -47,6 +47,7 @@ end
 group :test do
   gem "factory_girl_rails"
   gem 'ffaker'
+  gem 'shoulda', '~> 3.5'
 end
 
 group :production do

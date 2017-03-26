@@ -15,14 +15,15 @@ describe User do
 
   it { should validate_presence_of(:email) }
   it { should validate_uniqueness_of(:email) }
-  it { should validate_confirmation_of(:password) }
+  # it { should validate_confirmation_of(:password_confirmation)}
   it { should allow_value('example@domain.com').for(:email) }
   # we test the auth_token is unique
   it { should validate_uniqueness_of(:auth_token)}
 
+
   describe "#generate_authentication_token!" do
     it "generates a unique token" do
-      Devise.stub(:friendly_token).and_return("auniquetoken123")
+      allow(Devise).to receive(:friendly_token).and_return("auniquetoken123")
       @user.generate_authentication_token!
       expect(@user.auth_token).to eql "auniquetoken123"
     end
