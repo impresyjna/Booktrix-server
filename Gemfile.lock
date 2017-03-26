@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-rails.git
-  revision: 82340ffc774bd305fe94f8f395c1716dfe9e0c7f
+  revision: 8bee7df70fbe38a89c1ed7c5a544d0bbd7890b02
   specs:
     rspec-rails (3.6.0.beta2)
       actionpack (>= 3.0)
@@ -242,7 +242,7 @@ DEPENDENCIES
   rspec-support!
   sass-rails (~> 5.0)
   shoulda (~> 3.5)
-  shoulda-matchers
+  shoulda-matchers (~> 2.5)
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
