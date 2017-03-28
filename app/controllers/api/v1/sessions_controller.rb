@@ -6,11 +6,9 @@ class Api::V1::SessionsController < ApplicationController
   def create
     user_password = params[:session][:password]
     user_email = params[:session][:email]
-    binding.pry
     user = user_email.present? && User.find_by(email: user_email)
 
     if user.present? and user.valid_password? user_password
-      binding.pry
       sign_in user, store: false
       user.generate_authentication_token!
       user.save
@@ -18,6 +16,11 @@ class Api::V1::SessionsController < ApplicationController
     else
       render json: { errors: "Invalid email or password" }, status: 422
     end
+  end
+
+  private
+  def session_params
+    params.require(:session).permit(:email, :password)
   end
 
 end

@@ -4,19 +4,18 @@ describe Api::V1::SessionsController do
 
   describe "POST #create" do
 
-    before(:each) do
-      @user = FactoryGirl.create :user
-    end
+    let(:user) {FactoryGirl.create :user}
 
     context "when the credentials are correct" do
 
       before(:each) do
-        credentials = { email: @user.email, password: "12345678" }
-        post :create, { session: credentials }
+        tmp = { session: { email: user.email, password: "12345678" } }
+        post :create, body: tmp.to_json
       end
 
       it "returns the user record corresponding to the given credentials" do
-        expect(json_response[:auth_token]).to eql @user.auth_token
+        user.reload
+        expect(json_response[:auth_token]).to eql user.auth_token
       end
 
       it { should respond_with 200 }
@@ -25,8 +24,8 @@ describe Api::V1::SessionsController do
     context "when the credentials are incorrect" do
 
       before(:each) do
-        credentials = { email: @user.email, password: "invalidpassword" }
-        post :create, { session: credentials }
+        tmp = { session: { email: user.email, password: "invalidpassword" } }
+        post :create, body: tmp.to_json
       end
 
       it "returns a json with an error" do
