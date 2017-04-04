@@ -10,16 +10,41 @@ describe User do
   it { should respond_to(:password_confirmation) }
   # we test the user actually respond to this attribute
   it { should respond_to(:auth_token) }
+  it { should respond_to(:login) }
+  it { should respond_to(:name) }
+  it { should respond_to(:surname) }
 
   it { should be_valid }
 
   it { should validate_presence_of(:email) }
+  it { should validate_presence_of(:login) }
   it { should validate_uniqueness_of(:email) }
+  it { should validate_uniqueness_of(:login) }
   # it { should validate_confirmation_of(:password_confirmation)}
   it { should allow_value('example@domain.com').for(:email) }
   # we test the auth_token is unique
   it { should validate_uniqueness_of(:auth_token)}
 
+
+  describe "validates name" do
+    it { should allow_value('Adam').for(:name) }
+    it { should_not allow_value('Adam1').for(:name) }
+    it { should_not allow_value('Adam.').for(:name) }
+    it { should_not allow_value('Adam/').for(:name) }
+    it { should_not allow_value('Adam#').for(:name) }
+    it { should_not allow_value('Adam$').for(:name) }
+    it { should_not allow_value('Adam ').for(:name) }
+  end
+
+  describe "validates surname" do
+    it { should allow_value('Adam').for(:surname) }
+    it { should_not allow_value('Adam1').for(:surname) }
+    it { should_not allow_value('Adam.').for(:surname) }
+    it { should_not allow_value('Adam/').for(:surname) }
+    it { should_not allow_value('Adam#').for(:surname) }
+    it { should_not allow_value('Adam$').for(:surname) }
+    it { should_not allow_value('Adam ').for(:surname) }
+  end
 
   describe "#generate_authentication_token!" do
     it "generates a unique token" do

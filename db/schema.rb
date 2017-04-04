@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170322212615) do
+ActiveRecord::Schema.define(version: 20170404202356) do
 
   create_table "user_settings", force: :cascade do |t|
     t.boolean  "show_full_name"
@@ -35,6 +35,9 @@ ActiveRecord::Schema.define(version: 20170322212615) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "auth_token",             default: ""
+    t.string   "login"
+    t.string   "name"
+    t.string   "surname"
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
