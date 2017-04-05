@@ -8,7 +8,7 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
-    user_setting = UserSetting.create(params[:user_setting])
+    user_setting = UserSetting.create(user_setting_params)
     user.user_setting = user_setting
     if user.save
       render json: user, status: 201
@@ -36,5 +36,9 @@ class Api::V1::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :login, :name, :surname)
+  end
+
+  def user_setting_params
+    params.require(:user_setting).permit(:show_full_name, :show_gifts_boolean, :show_activities, :show_books)
   end
 end

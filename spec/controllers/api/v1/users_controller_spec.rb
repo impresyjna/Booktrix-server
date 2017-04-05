@@ -20,12 +20,14 @@ describe Api::V1::UsersController do
     context "when is successfully created" do
       before(:each) do
         @user_attributes = FactoryGirl.attributes_for :user
-        post :create, { user: @user_attributes }
+        @user_setting_attributes = FactoryGirl.attributes_for :user_setting
+        post :create, { user: @user_attributes, user_setting: @user_setting_attributes }
       end
 
       it "renders the json representation for the user record just created" do
         user_response = json_response
         expect(user_response[:email]).to eql @user_attributes[:email]
+        expect(user_response[:user_setting][:show_full_name]).to eql @user_setting_attributes[:show_full_name]
       end
 
       it { should respond_with 201 }
@@ -34,7 +36,8 @@ describe Api::V1::UsersController do
     context "when is not created" do
       before(:each) do
         @invalid_user_attributes = { password: "12345678", password_confirmation: "12345678" } #notice I'm not including the email
-        post :create, { user: @invalid_user_attributes }
+        @user_setting_attributes = FactoryGirl.attributes_for :user_setting
+        post :create, { user: @invalid_user_attributes,user_setting: @user_setting_attributes }
       end
 
       it "renders an errors json" do
