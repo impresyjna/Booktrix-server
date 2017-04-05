@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_one :user_setting
+
   before_save :downcase_email
   before_create :generate_authentication_token!
   # Include default devise modules. Others available are:
@@ -10,7 +12,7 @@ class User < ActiveRecord::Base
             format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates_uniqueness_of :login
   validates :auth_token, uniqueness: true
-  VALID_NAME_REGEX = /\A[A-z]+\z/
+  VALID_NAME_REGEX = /\A[A-z]*\z/
   validates :name, format: { with: VALID_NAME_REGEX }
   validates :surname, format: { with: VALID_NAME_REGEX }
 

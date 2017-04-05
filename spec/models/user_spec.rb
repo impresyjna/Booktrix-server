@@ -28,6 +28,7 @@ describe User do
 
   describe "validates name" do
     it { should allow_value('Adam').for(:name) }
+    it { should allow_value('').for(:name) }
     it { should_not allow_value('Adam1').for(:name) }
     it { should_not allow_value('Adam.').for(:name) }
     it { should_not allow_value('Adam/').for(:name) }

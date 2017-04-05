@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170404202356) do
+ActiveRecord::Schema.define(version: 20170405094002) do
 
   create_table "user_settings", force: :cascade do |t|
-    t.boolean  "show_full_name"
-    t.string   "show_gifts_boolean"
-    t.boolean  "show_activities"
-    t.boolean  "show_books"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.boolean  "show_full_name",     default: false
+    t.boolean  "show_gifts_boolean", default: false
+    t.boolean  "show_activities",    default: false
+    t.boolean  "show_books",         default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_user_settings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -8,6 +8,8 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
+    user_setting = UserSetting.create(params[:user_setting])
+    user.user_setting = user_setting
     if user.save
       render json: user, status: 201
     else
