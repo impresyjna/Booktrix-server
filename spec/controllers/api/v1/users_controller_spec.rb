@@ -62,12 +62,14 @@ describe Api::V1::UsersController do
 
     context "when is successfully updated" do
       before(:each) do
-        patch :update, { id: @user.id, user: { email: "newmail@example.com" } }
+        patch :update, { id: @user.id, user: { email: "newmail@example.com" }, user_setting: { show_activities: true} }
       end
 
       it "renders the json representation for the updated user" do
         user_response = json_response
         expect(user_response[:email]).to eql "newmail@example.com"
+        expect(user_response[:user_setting][:show_activities]).to eql true
+        expect(user_response[:user_setting][:show_gifts_boolean]).to eql false
       end
 
       it { should respond_with 200 }
@@ -75,7 +77,7 @@ describe Api::V1::UsersController do
 
     context "when is not created" do
       before(:each) do
-        patch :update, { id: @user.id, user: { email: "bademail.com" } }
+        patch :update, { id: @user.id, user: { email: "bademail.com" }, user_setting: { show_activities: true} }
       end
 
       it "renders an errors json" do

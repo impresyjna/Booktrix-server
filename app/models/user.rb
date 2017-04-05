@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_one :user_setting
+  has_one :user_setting, dependent: :destroy
 
   before_save :downcase_email
   before_create :generate_authentication_token!

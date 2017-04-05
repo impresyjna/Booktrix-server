@@ -6,5 +6,6 @@ FactoryGirl.define do
     login "login"
     name "Adam"
     surname "Nowak"
+    user_setting {FactoryGirl.create(:user_setting) }
   end
 end
