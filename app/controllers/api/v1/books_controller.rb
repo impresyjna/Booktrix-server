@@ -1,3 +1,5 @@
+require 'openlibrary'
+
 class Api::V1::BooksController < ApplicationController
   respond_to :json
 
@@ -6,8 +8,9 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def found_by_isbn
-    book_service = Google::Apis::BooksV1::BooksService
-    book = book_service.volumes.get()
+    client = Openlibrary::Client.new
+    book = client.book('olid')
+    respond_with book
   end
 
   private
