@@ -2,7 +2,9 @@ class Api::V1::BooksController < ApplicationController
   respond_to :json
 
   def found_by_isbn
-    page = Nokogiri::HTML(open("https://www.worldcat.org/isbn/9780451196712"))
+    isbn = "9788387463472"
+    link_to_open = "https://www.worldcat.org/isbn/" + isbn
+    page = Nokogiri::HTML(open(link_to_open))
     book = Book.new
 
     #Publisher details
@@ -19,16 +21,24 @@ class Api::V1::BooksController < ApplicationController
     authors.each{|author| book.author = book.author + author + ";"}
 
     #Title details
+    book.title = page.css('.title').text
 
     #ISBN details
+    book.isbn = isbn
 
     #Image details
+    book.image = page.css('#cover').css('img').attr('src').to_s.gsub('//', '')
 
     #Description details
+    book.description = page.css('#summary').text
 
     #Page count details
+    page_description = page.css('#details-description').css("td").text
+    page_counts_split =  page_description.to_s.split(',')
+    if /^(?<num>\d+)$/ =~ page_counts_split[0]
+      book.page_count = num.to_i # => 123
+    end
 
-    puts page.css('#bib-publisher-cell').text
     respond_with book
   end
 end
