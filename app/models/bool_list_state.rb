@@ -1,0 +1,2 @@
+class BoolListState < ApplicationRecord
+end

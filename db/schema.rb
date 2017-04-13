@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413062931) do
+ActiveRecord::Schema.define(version: 20170413070556) do
+
+  create_table "book_lists", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "book_list_state_id"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.index ["book_id"], name: "index_book_lists_on_book_id"
+    t.index ["book_list_state_id"], name: "index_book_lists_on_book_list_state_id"
+    t.index ["user_id"], name: "index_book_lists_on_user_id"
+  end
 
   create_table "books", force: :cascade do |t|
     t.string   "title"
@@ -26,12 +37,46 @@ ActiveRecord::Schema.define(version: 20170413062931) do
     t.string   "publisher_city"
   end
 
+  create_table "bool_list_states", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.string   "color"
     t.string   "font_color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "marks", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "user_id"
+    t.integer  "value"
+    t.text     "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_marks_on_book_id"
+    t.index ["user_id"], name: "index_marks_on_user_id"
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_books", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["book_id"], name: "index_user_books_on_book_id"
+    t.index ["category_id"], name: "index_user_books_on_category_id"
+    t.index ["user_id"], name: "index_user_books_on_user_id"
   end
 
   create_table "user_settings", force: :cascade do |t|
