@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413071450) do
+ActiveRecord::Schema.define(version: 20170413072932) do
 
   create_table "book_lists", force: :cascade do |t|
     t.integer  "book_id"
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 20170413071450) do
     t.string   "font_color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.string   "friendable_type"
+    t.integer  "friendable_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "blocker_id"
+    t.integer  "status"
   end
 
   create_table "marks", force: :cascade do |t|
