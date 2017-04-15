@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_with_http_token, only: [:update, :destroy]
+  before_action :authenticate_with_http_token, only: [:update, :destroy, :add_friend]
   respond_to :json
 
   def show
@@ -32,6 +32,19 @@ class Api::V1::UsersController < ApplicationController
     head 204
   end
 
+  def add_friend
+    user = current_user
+    friend = User.where(login: params[:friend]).first
+    if user.login == params[:friend]
+      render json: { errors: "Same logins" }, status: 422
+    elsif !friend.present?
+      head 404
+    else
+      user.friend_request(friend)
+      render json: user.pending_friends, each_serializer: FriendSerializer, root: "friends", adapter: :json, status: 201, location: [:api, user]
+    end
+  end
+
   private
 
   def user_params
@@ -41,4 +54,5 @@ class Api::V1::UsersController < ApplicationController
   def user_setting_params
     params.require(:user_setting).permit(:show_full_name, :show_gifts_boolean, :show_activities, :show_books)
   end
+
 end

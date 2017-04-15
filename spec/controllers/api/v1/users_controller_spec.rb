@@ -21,7 +21,7 @@ describe Api::V1::UsersController do
       before(:each) do
         @user_attributes = FactoryGirl.attributes_for :user
         @user_setting_attributes = FactoryGirl.attributes_for :user_setting
-        post :create, { user: @user_attributes, user_setting: @user_setting_attributes }
+        post :create, {user: @user_attributes, user_setting: @user_setting_attributes}
       end
 
       it "renders the json representation for the user record just created" do
@@ -35,9 +35,9 @@ describe Api::V1::UsersController do
 
     context "when is not created" do
       before(:each) do
-        @invalid_user_attributes = { password: "12345678", password_confirmation: "12345678" } #notice I'm not including the email
+        @invalid_user_attributes = {password: "12345678", password_confirmation: "12345678"} #notice I'm not including the email
         @user_setting_attributes = FactoryGirl.attributes_for :user_setting
-        post :create, { user: @invalid_user_attributes,user_setting: @user_setting_attributes }
+        post :create, {user: @invalid_user_attributes, user_setting: @user_setting_attributes}
       end
 
       it "renders an errors json" do
@@ -62,7 +62,7 @@ describe Api::V1::UsersController do
 
     context "when is successfully updated" do
       before(:each) do
-        patch :update, { id: @user.id, user: { email: "newmail@example.com" }, user_setting: { show_activities: true} }
+        patch :update, {id: @user.id, user: {email: "newmail@example.com"}, user_setting: {show_activities: true}}
       end
 
       it "renders the json representation for the updated user" do
@@ -77,7 +77,7 @@ describe Api::V1::UsersController do
 
     context "when is not created" do
       before(:each) do
-        patch :update, { id: @user.id, user: { email: "bademail.com" }, user_setting: { show_activities: true} }
+        patch :update, {id: @user.id, user: {email: "bademail.com"}, user_setting: {show_activities: true}}
       end
 
       it "renders an errors json" do
@@ -97,11 +97,47 @@ describe Api::V1::UsersController do
   describe "DELETE #destroy" do
     before(:each) do
       @user = FactoryGirl.create :user
-      api_authorization_header @user.auth_token #we added this line
+      api_authorization_header @user.auth_token
       delete :destroy, id: @user.auth_token
     end
 
     it { should respond_with 204 }
+
+  end
+
+  describe "POST #add_friend" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+    end
+
+    context "when is successfully created" do
+      before(:each) do
+       @friend = FactoryGirl.create :friend
+       post :add_friend, {friend: @friend.login}
+      end
+      it { should respond_with 201 }
+    end
+
+    context "when is not created" do
+      before(:each) do
+        post :add_friend, {friend: @user.login}
+        friend_response = json_response
+        expect(friend_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422 }
+    end
+
+    context "when friend not found" do
+      before(:each) do
+        @friend = FactoryGirl.create :friend
+        @friend.login = "login2"
+        post :add_friend, {friend: @friend.login}
+      end
+
+      it { should respond_with 404 }
+    end
 
   end
 
