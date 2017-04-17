@@ -4,8 +4,8 @@ Rails.application.routes.draw do
     scope module: :v1 do
       resources :users, :only => [:show, :create, :update, :destroy]
       resources :sessions, :only => [:create, :destroy]
+      resources :friends, :only => [:index, :create, :update]
       get 'found_by_isbn' => 'books#found_by_isbn'
-      post 'add_friend' => 'users#add_friend'
     end
   end
 end

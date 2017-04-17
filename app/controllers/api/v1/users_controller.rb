@@ -32,19 +32,6 @@ class Api::V1::UsersController < ApplicationController
     head 204
   end
 
-  def add_friend
-    user = current_user
-    friend = User.where(login: params[:friend]).first
-    if user.login == params[:friend]
-      render json: { errors: "Same logins" }, status: 422
-    elsif !friend.present?
-      head 404
-    else
-      user.friend_request(friend)
-      render json: user.pending_friends, each_serializer: FriendSerializer, root: "friends", adapter: :json, status: 201, location: [:api, user]
-    end
-  end
-
   private
 
   def user_params
