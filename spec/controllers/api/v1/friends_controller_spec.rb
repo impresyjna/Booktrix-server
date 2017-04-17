@@ -83,6 +83,34 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
   end
 
   describe "PUT/PATCH #update" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @friend = FactoryGirl.create :friend
+      @friend.friend_request(@user)
+      api_authorization_header @user.auth_token
+    end
+
+    context "when friend accepted" do
+
+      before(:each) do
+        patch :update, {login: @friend.login}
+        friend_response = json_response
+        expect(friend_response).to have_key(:success)
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context "when friend not in list to accept" do
+
+      before(:each) do
+        patch :update, {login: "login2"}
+        friend_response = json_response
+        expect(friend_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422 }
+    end
 
   end
 

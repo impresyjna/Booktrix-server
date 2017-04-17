@@ -29,6 +29,16 @@ class Api::V1::FriendsController < ApplicationController
   end
 
   def update
+    user = current_user
+    friend = user.requested_friends.select { |user| user.login == params[:login] }.first
+    if user.login == params[:friend] || !friend.present?
+      render json: { errors: "Cannot accept this request" }, status: 422
+    else
+      render json: { success: "Friend accepted" }, status: 200
+    end
+  end
+
+  def destroy
 
   end
 end
