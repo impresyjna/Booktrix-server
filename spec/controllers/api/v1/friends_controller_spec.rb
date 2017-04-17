@@ -93,7 +93,7 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
     context "when friend accepted" do
 
       before(:each) do
-        patch :update, {login: @friend.login}
+        patch :update, {login: @friend.login, friend_action: "accept"}
         friend_response = json_response
         expect(friend_response).to have_key(:success)
       end
@@ -104,7 +104,27 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
     context "when friend not in list to accept" do
 
       before(:each) do
-        patch :update, {login: "login2"}
+        patch :update, {login: "login2", friend_action: "accept"}
+        friend_response = json_response
+        expect(friend_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422 }
+    end
+
+    context "when friend blocked" do
+      before(:each) do
+        patch :update, {login: @friend.login, friend_action: "block"}
+        friend_response = json_response
+        expect(friend_response).to have_key(:blocked)
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context "when friend to block not in the list" do
+      before(:each) do
+        patch :update, {login: "login2", friend_action: "block"}
         friend_response = json_response
         expect(friend_response).to have_key(:errors)
       end

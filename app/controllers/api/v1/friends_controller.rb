@@ -12,6 +12,8 @@ class Api::V1::FriendsController < ApplicationController
         render json: user.requested_friends, each_serializer: FriendSerializer, root: "friends", adapter: :json, status: 200, location: [:api, user]
       when "blocked"
         render json: user.blocked_friends, each_serializer: FriendSerializer, root: "friends", adapter: :json, status: 200, location: [:api, user]
+      else
+        render json: { errors: "Request error" }, status: 422
     end
   end
 
@@ -30,11 +32,26 @@ class Api::V1::FriendsController < ApplicationController
 
   def update
     user = current_user
-    friend = user.requested_friends.select { |user| user.login == params[:login] }.first
-    if user.login == params[:friend] || !friend.present?
-      render json: { errors: "Cannot accept this request" }, status: 422
-    else
-      render json: { success: "Friend accepted" }, status: 200
+    case params[:friend_action]
+      when "accept"
+        friend = user.requested_friends.select { |user| user.login == params[:login] }.first
+        if user.login == params[:friend] || !friend.present?
+          render json: { errors: "Cannot accept this request" }, status: 422
+        else
+          user.accept_request(friend)
+          render json: { success: "Friend accepted" }, status: 200
+        end
+      when "block"
+        friends_lists = user.requested_friends + user.friends
+        friend = friends_lists.select { |user| user.login == params[:login] }.first
+        if user.login == params[:friend] || !friend.present?
+          render json: { errors: "Cannot block this friend" }, status: 422
+        else
+          user.block_friend(friend)
+          render json: {blocked: "Blocked this user" }, status: 200
+        end
+      else
+        render json: { errors: "Request error" }, status: 422
     end
   end
 
