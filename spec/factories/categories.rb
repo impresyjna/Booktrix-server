@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :category do
-    name "MyString"
-    color "MyString"
-    font_color "MyString"
+    name "Category"
+    color "#ffffff"
+    font_color "#000000"
   end
 end
