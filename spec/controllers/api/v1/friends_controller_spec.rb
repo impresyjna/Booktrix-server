@@ -135,6 +135,50 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
   end
 
   describe "DELETE destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @friend = FactoryGirl.create :friend
+      @user.friend_request(@friend)
+      @friend.accept_request(@user)
+      api_authorization_header @user.auth_token
+    end
+
+    context "when friend unblocked" do
+      before(:each) do
+        @user.block_friend(@friend)
+        delete :destroy, {login: @friend.login, friend_action: "unblock"}
+      end
+
+      it { should respond_with 204}
+    end
+
+    context "when friend cannot be unblocked" do
+      before(:each) do
+        delete :destroy, {login: "login2", friend_action: "unblock"}
+        friend_response = json_response
+        expect(friend_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422}
+    end
+
+    context "when friend removed" do
+      before(:each) do
+        delete :destroy, {login: @friend.login, friend_action: "remove"}
+      end
+
+      it { should respond_with 204}
+    end
+
+    context "when friend cannot be unblocked" do
+      before(:each) do
+        delete :destroy, {login: "login2", friend_action: "remove"}
+        friend_response = json_response
+        expect(friend_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422}
+    end
 
   end
 end

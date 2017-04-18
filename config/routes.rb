@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :sessions, :only => [:create, :destroy]
       resources :friends, :only => [:index, :create]
       patch 'friends' => 'friends#update'
+      delete 'friends' => 'friends#destroy'
       get 'found_by_isbn' => 'books#found_by_isbn'
     end
   end
