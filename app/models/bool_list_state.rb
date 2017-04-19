@@ -1,2 +1,0 @@
-class BoolListState < ApplicationRecord
-end
