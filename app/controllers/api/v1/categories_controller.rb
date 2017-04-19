@@ -24,12 +24,22 @@ class Api::V1::CategoriesController < ApplicationController
     if category.save
       render json: category, status: 201
     else
-      render json: { errors: category.errors }, status: 422
+      render json: {errors: category.errors}, status: 422
     end
   end
 
   def update
-
+    user = current_user
+    category = user.categories.where(id: params[:id]).first
+    if category.present?
+      if category.update(category_params)
+        render json: category, status: 200
+      else
+        render json: {errors: category.errors}, status: 422
+      end
+    else
+      render json: {errors: "Cannot update category with this id"}, status: 422
+    end
   end
 
   def destroy
