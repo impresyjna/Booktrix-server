@@ -13,6 +13,8 @@ RSpec.describe Category, type: :model do
 
   it { should validate_presence_of(:name) }
 
+  it { should belong_to(:user) }
+
   describe "validates color" do
     it { should allow_value('#ffffff').for(:color) }
     it { should_not allow_value('ffffff').for(:color) }

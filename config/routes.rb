@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :friends, :only => [:index, :create]
       patch 'friends' => 'friends#update'
       delete 'friends' => 'friends#destroy'
+      resources :categories, :only => [:index, :show, :create, :update, :destroy]
       get 'found_by_isbn' => 'books#found_by_isbn'
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413072932) do
+ActiveRecord::Schema.define(version: 20170418224526) do
 
   create_table "book_lists", force: :cascade do |t|
     t.integer  "book_id"
@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 20170413072932) do
     t.string   "font_color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
   create_table "friendships", force: :cascade do |t|
