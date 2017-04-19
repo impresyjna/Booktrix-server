@@ -9,6 +9,7 @@ deploy:
   on:
     repo: wampir1408/Booktrix-server
   run: "rake db:migrate"
+  run: "rake db:seed"
 notifications:
   email:
     recipients:
