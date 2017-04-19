@@ -23,3 +23,6 @@ test:
 production:
   adapter: postgresql
   database: booktrix-server_production
+  url: <%= ENV['DATABASE_URL'] %>
+  encoding: utf8
+  pool: 5
