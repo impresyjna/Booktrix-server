@@ -5,3 +5,15 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+book_list_states_parameteres = [
+    { name: "Want to read", country: "EN" },
+    { name: "Reading", country: "EN" },
+    { name: "Read", country: "EN" },
+    { name: "Chcę przeczytać", country: "PL" },
+    { name: "Czytam", country: "PL" },
+    { name: "Przeczytane", country: "PL" }
+]
+
+book_list_states_parameteres.each do |parameters|
+  BookListState.create(parameters) unless BookListState.where(parameters).first
+end

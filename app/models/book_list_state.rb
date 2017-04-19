@@ -1,0 +1,2 @@
+class BookListState < ApplicationRecord
+end

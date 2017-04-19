@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170418224526) do
+ActiveRecord::Schema.define(version: 20170419172041) do
+
+  create_table "book_list_states", force: :cascade do |t|
+    t.string   "name"
+    t.string   "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "book_lists", force: :cascade do |t|
     t.integer  "book_id"
