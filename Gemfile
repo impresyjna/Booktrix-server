@@ -30,7 +30,7 @@ gem 'has_friendship'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-  gem 'sqlite3', '1.3.13'
+  gem 'sqlite3'
   gem "shoulda-matchers", "~>2.5"
   gem "rspec-core", :github => "rspec/rspec-core"
   gem "rspec-expectations", :github => "rspec/rspec-expectations"
@@ -56,7 +56,7 @@ group :test do
 end
 
 group :production do
-  gem 'sqlite3', '1.3.13'
+  gem 'pg'
 end
 
 gem "devise"
