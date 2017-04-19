@@ -57,6 +57,7 @@ end
 
 group :production do
   gem 'postgresql'
+  gem 'sqlite3'
 end
 
 gem "devise"

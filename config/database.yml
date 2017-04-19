@@ -21,9 +21,5 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: postgresql
-  database: booktrix-server_production
-  url: <%= ENV['DATABASE_URL'] %>
-  password: <%= ENV['BOOKTRIX-SERVER_DATABASE_PASSWORD'] %>
-  encoding: utf8
-  pool: 5
+  <<: *default
+  database: db/production.sqlite3
