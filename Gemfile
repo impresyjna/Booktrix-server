@@ -56,8 +56,7 @@ group :test do
 end
 
 group :production do
-  gem 'postgresql'
-  gem 'sqlite3'
+  gem 'pg'
 end
 
 gem "devise"

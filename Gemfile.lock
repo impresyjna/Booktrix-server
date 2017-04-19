@@ -150,8 +150,6 @@ GEM
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
     pg (0.20.0)
-    postgresql (1.0.0)
-      pg
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -253,7 +251,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   nokogiri
-  postgresql
+  pg
   pry
   puma (~> 3.0)
   rails (~> 5.0.2)
