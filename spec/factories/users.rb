@@ -3,7 +3,7 @@ FactoryGirl.define do
     email {FFaker::Internet.email}
     password "12345678"
     password_confirmation "12345678"
-    login "login"
+    login {FFaker::Name.first_name }
     name "Adam"
     surname "Nowak"
     user_setting {FactoryGirl.create(:user_setting) }
@@ -13,7 +13,7 @@ FactoryGirl.define do
     email {FFaker::Internet.email}
     password "12345678"
     password_confirmation "12345678"
-    login "login1"
+    login { FFaker::Name.first_name }
     name "Adam"
     surname "Nowak"
     user_setting {FactoryGirl.create(:user_setting) }

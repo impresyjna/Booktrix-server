@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_one :user_setting, dependent: :destroy
+  has_many :categories
   has_friendship
 
   before_save :downcase_email
