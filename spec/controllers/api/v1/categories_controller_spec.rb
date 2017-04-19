@@ -44,7 +44,43 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
   end
 
   describe "POST #create" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+    end
 
+    context "when is successfully created" do
+      before(:each) do
+        @category_attributes = FactoryGirl.attributes_for :category
+        post :create, {category: @category_attributes}
+      end
+
+      it "renders the json representation for the user record just created" do
+        category_response = json_response
+        expect(category_response[:name]).to eql @category_attributes[:name]
+      end
+
+      it { should respond_with 201 }
+    end
+
+    context "when is not created" do
+      before(:each) do
+        @invalid_category_attributes = {name: ""} #notice I'm not including the email
+        post :create, {category: @invalid_category_attributes}
+      end
+
+      it "renders an errors json" do
+        category_response = json_response
+        expect(category_response).to have_key(:errors)
+      end
+
+      it "renders the json errors on why the user could not be created" do
+        category_response = json_response
+        expect(category_response[:errors][:name]).to include "can't be blank"
+      end
+
+      it { should respond_with 422 }
+    end
   end
 
   describe "PUT/PATCH #update" do

@@ -19,7 +19,13 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def create
-
+    user = current_user
+    category = user.categories.build(category_params)
+    if category.save
+      render json: category, status: 201
+    else
+      render json: { errors: category.errors }, status: 422
+    end
   end
 
   def update
@@ -28,5 +34,11 @@ class Api::V1::CategoriesController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+
+  def category_params
+    params.require(:category).permit(:name, :color, :font_color)
   end
 end
