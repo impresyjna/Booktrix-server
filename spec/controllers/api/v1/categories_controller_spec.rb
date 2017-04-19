@@ -139,6 +139,33 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @category = FactoryGirl.create :category
+      @category.user_id = @user.id
+      @category.save
+    end
+
+    context "when delete success" do
+      before(:each) do
+        delete :destroy, {id: @category.id}
+      end
+
+      it { should respond_with 204 }
+    end
+
+    context "when cannot delete - category doesn't exists" do
+      before(:each) do
+        @category.user_id = @category.user_id + 1
+        @category.save
+        delete :destroy, {id: @category.id}
+      end
+
+      it { should respond_with 422 }
+    end
+
+    #TODO: Test for removing this when user book exists
 
   end
 end

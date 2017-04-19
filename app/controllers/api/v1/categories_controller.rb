@@ -43,6 +43,14 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def destroy
+    user = current_user
+    category = user.categories.where(id: params[:id]).first
+    if category.present?
+      category.destroy
+      head 204
+    else
+      head 422
+    end
 
   end
 
