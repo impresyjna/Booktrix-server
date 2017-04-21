@@ -1,0 +1,2 @@
+class BookListStateTranslation < ApplicationRecord
+end

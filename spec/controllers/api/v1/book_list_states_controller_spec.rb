@@ -19,4 +19,6 @@ RSpec.describe Api::V1::BookListStatesController, type: :controller do
     end
   end
 
+  #TODO: Make this with translation
+
 end

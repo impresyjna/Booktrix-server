@@ -5,6 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+reserved = BookListState.create(name: "reserved") unless BookListState.where(name: "reserved").first
+borrowed = BookListState.create(name: "borrowed") unless BookListState.where(name: "borrowed").first
+returned = BookListState.create(name: "returned") unless BookListState.where(name: "returned").first
+destroyed = BookListState.create(name: "destroyed") unless BookListState.where(name: "destroyed").first
+
 book_list_states_parameteres = [
     { name: "Want to read", country: "EN" },
     { name: "Reading", country: "EN" },
@@ -15,5 +22,5 @@ book_list_states_parameteres = [
 ]
 
 book_list_states_parameteres.each do |parameters|
-  BookListState.create(parameters) unless BookListState.where(parameters).first
+  BookListStateTranslation.create(parameters) unless BookListStateTranslation.where(parameters).first
 end

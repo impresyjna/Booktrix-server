@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419172041) do
+ActiveRecord::Schema.define(version: 20170421185636) do
+
+  create_table "book_list_state_translations", force: :cascade do |t|
+    t.string   "country"
+    t.string   "translation"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "book_list_state_id"
+    t.index ["book_list_state_id"], name: "index_book_list_state_translations_on_book_list_state_id"
+  end
 
   create_table "book_list_states", force: :cascade do |t|
     t.string   "name"
-    t.string   "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
