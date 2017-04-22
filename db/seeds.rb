@@ -7,18 +7,27 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-reserved = BookListState.create(name: "reserved") unless BookListState.where(name: "reserved").first
-borrowed = BookListState.create(name: "borrowed") unless BookListState.where(name: "borrowed").first
-returned = BookListState.create(name: "returned") unless BookListState.where(name: "returned").first
-destroyed = BookListState.create(name: "destroyed") unless BookListState.where(name: "destroyed").first
+want_to_read = BookListState.create(name: "want_to_read") unless BookListState.where(name: "want_to_read").first
+reading = BookListState.create(name: "reading") unless BookListState.where(name: "reading").first
+read = BookListState.create(name: "read") unless BookListState.where(name: "read").first
+
+if !want_to_read.present?
+  want_to_read = BookListState.where(name: "want_to_read").first
+end
+if !reading.present?
+  reading = BookListState.where(name: "reading").first
+end
+if !read.present?
+  read = BookListState.where(name: "read").first
+end
 
 book_list_states_parameteres = [
-    { name: "Want to read", country: "EN" },
-    { name: "Reading", country: "EN" },
-    { name: "Read", country: "EN" },
-    { name: "Chcę przeczytać", country: "PL" },
-    { name: "Czytam", country: "PL" },
-    { name: "Przeczytane", country: "PL" }
+    { translation: "Want to read", country: "EN" , book_list_state_id: want_to_read.id},
+    { translation: "Reading", country: "EN", book_list_state_id: reading.id },
+    { translation: "Read", country: "EN",book_list_state_id: read.id },
+    { translation: "Chcę przeczytać", country: "PL", book_list_state_id: want_to_read.id },
+    { translation: "Czytam", country: "PL", book_list_state_id: reading.id },
+    { translation: "Przeczytane", country: "PL", book_list_state_id: read.id }
 ]
 
 book_list_states_parameteres.each do |parameters|

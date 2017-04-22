@@ -27,17 +27,6 @@ ActiveRecord::Schema.define(version: 20170421185636) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "book_lists", force: :cascade do |t|
-    t.integer  "book_id"
-    t.integer  "book_list_state_id"
-    t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.index ["book_id"], name: "index_book_lists_on_book_id"
-    t.index ["book_list_state_id"], name: "index_book_lists_on_book_list_state_id"
-    t.index ["user_id"], name: "index_book_lists_on_user_id"
-  end
-
   create_table "books", force: :cascade do |t|
     t.string   "title"
     t.string   "author"
@@ -50,25 +39,6 @@ ActiveRecord::Schema.define(version: 20170421185636) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "publisher_city"
-  end
-
-  create_table "bool_list_states", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "borroweds", force: :cascade do |t|
-    t.integer  "user_book_id"
-    t.integer  "user_id"
-    t.string   "user_name"
-    t.string   "user_surname"
-    t.integer  "state_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["state_id"], name: "index_borroweds_on_state_id"
-    t.index ["user_book_id"], name: "index_borroweds_on_user_book_id"
-    t.index ["user_id"], name: "index_borroweds_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -89,34 +59,6 @@ ActiveRecord::Schema.define(version: 20170421185636) do
     t.datetime "updated_at"
     t.integer  "blocker_id"
     t.integer  "status"
-  end
-
-  create_table "marks", force: :cascade do |t|
-    t.integer  "book_id"
-    t.integer  "user_id"
-    t.integer  "value"
-    t.text     "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_marks_on_book_id"
-    t.index ["user_id"], name: "index_marks_on_user_id"
-  end
-
-  create_table "states", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "user_books", force: :cascade do |t|
-    t.integer  "book_id"
-    t.integer  "category_id"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["book_id"], name: "index_user_books_on_book_id"
-    t.index ["category_id"], name: "index_user_books_on_category_id"
-    t.index ["user_id"], name: "index_user_books_on_user_id"
   end
 
   create_table "user_settings", force: :cascade do |t|
