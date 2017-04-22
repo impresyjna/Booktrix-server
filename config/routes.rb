@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       delete 'friends' => 'friends#destroy'
       resources :categories, :only => [:index, :show, :create, :update, :destroy]
       resources :book_list_states, :only => [:index]
+      resources :borrow_history_states, :only => [:index]
       get 'found_by_isbn' => 'books#found_by_isbn'
     end
   end
