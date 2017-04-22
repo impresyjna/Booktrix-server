@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170421185636) do
   end
 
   create_table "book_list_states", force: :cascade do |t|
-    t.string   "name"
+    t.integer  "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

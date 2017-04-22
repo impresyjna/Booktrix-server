@@ -7,18 +7,18 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-want_to_read = BookListState.create(name: "want_to_read") unless BookListState.where(name: "want_to_read").first
-reading = BookListState.create(name: "reading") unless BookListState.where(name: "reading").first
-read = BookListState.create(name: "read") unless BookListState.where(name: "read").first
+want_to_read = BookListState.create(state: 0) unless BookListState.want_to_read.first
+reading = BookListState.create(state: 1) unless BookListState.reading.first
+read = BookListState.create(state: 2) unless BookListState.read.first
 
 if !want_to_read.present?
-  want_to_read = BookListState.where(name: "want_to_read").first
+  want_to_read = BookListState.want_to_read.first
 end
 if !reading.present?
-  reading = BookListState.where(name: "reading").first
+  reading = BookListState.reading.first
 end
 if !read.present?
-  read = BookListState.where(name: "read").first
+  read = BookListState.read.first
 end
 
 book_list_states_parameteres = [
