@@ -33,3 +33,36 @@ book_list_states_parameteres = [
 book_list_states_parameteres.each do |parameters|
   BookListStateTranslation.create(parameters) unless BookListStateTranslation.where(parameters).first
 end
+
+reserved = BorrowHistoryState.create(state: 0) unless BorrowHistoryState.reserved.first
+borrowed = BorrowHistoryState.create(state: 1) unless BorrowHistoryState.borrowed.first
+returned = BorrowHistoryState.create(state: 2) unless BorrowHistoryState.returned.first
+demolished = BorrowHistoryState.create(state: 3) unless BorrowHistoryState.demolished.first
+
+if !reserved.present?
+  reserved = BorrowHistoryState.reserved.first
+end
+if !borrowed.present?
+  borrowed = BorrowHistoryState.borrowed.first
+end
+if !returned.present?
+  returned = BorrowHistoryState.returned.first
+end
+if !demolished.present?
+  demolished = BorrowHistoryState.demolished.first
+end
+
+borrow_history_states_parameters = [
+    { translation: "Reserved", country: "EN" , borrow_history_state_id: reserved.id},
+    { translation: "Borrowed", country: "EN", borrow_history_state_id: borrowed.id },
+    { translation: "Returned", country: "EN",borrow_history_state_id: returned.id },
+    { translation: "Destroyed", country: "EN",borrow_history_state_id: demolished.id },
+    { translation: "Zarezerwowana", country: "PL", borrow_history_state_id: reserved.id },
+    { translation: "Pożyczona", country: "PL", borrow_history_state_id: borrowed.id },
+    { translation: "Zwrócona", country: "PL", borrow_history_state_id: returned.id },
+    { translation: "Zniszczona", country: "PL", borrow_history_state_id: demolished.id }
+]
+
+borrow_history_states_parameters.each do |parameters|
+  BorrowHistoryStateTran.create(parameters) unless BorrowHistoryStateTran.where(parameters).first
+end
