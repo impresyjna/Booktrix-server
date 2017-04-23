@@ -19,7 +19,7 @@ RSpec.describe Book, type: :model do
     it { should_not allow_value('978836540107').for(:isbn) }
     it { should_not allow_value('aaa').for(:isbn) }
     it { should_not allow_value(' ').for(:isbn) }
-    # it { should_not allow_value('').for(:isbn) }
+    it { should_not allow_value('').for(:isbn) }
     it { should allow_value('8387463477').for(:isbn) }
   end
 
