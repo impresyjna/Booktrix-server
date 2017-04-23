@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :borrow_history_states, :only => [:index]
       resources :books, :only => [:index, :show]
       get 'found_by_isbn' => 'books#found_by_isbn'
+      resources :request_to_fixes, :only => [:create]
     end
   end
 end
