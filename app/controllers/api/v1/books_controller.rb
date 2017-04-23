@@ -1,6 +1,14 @@
 class Api::V1::BooksController < ApplicationController
   respond_to :json
 
+  def index
+
+  end
+
+  def show
+
+  end
+
   def found_by_isbn
     isbn = params[:isbn]
     if Book.exists?(isbn: isbn)
@@ -53,10 +61,5 @@ class Api::V1::BooksController < ApplicationController
     end
   end
 
-  private
-
-  def book_params
-    params.require(:book).permit(:isbn, :title, :author)
-  end
 
 end
