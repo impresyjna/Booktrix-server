@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170423205841) do
+ActiveRecord::Schema.define(version: 20170423212722) do
 
   create_table "book_list_state_translations", force: :cascade do |t|
     t.string   "country"
@@ -80,9 +80,6 @@ ActiveRecord::Schema.define(version: 20170423205841) do
     t.integer  "book_id"
     t.integer  "user_id"
     t.boolean  "reserved"
-    t.string   "title"
-    t.string   "author"
-    t.string   "isbn"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_gifts_on_book_id"
