@@ -17,6 +17,8 @@ class Api::V1::FriendsController < ApplicationController
     end
   end
 
+  #TODO: Show friend
+
   def create
     user = current_user
     friend = User.where(login: params[:friend]).first

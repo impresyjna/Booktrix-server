@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422211132) do
+ActiveRecord::Schema.define(version: 20170423205841) do
 
   create_table "book_list_state_translations", force: :cascade do |t|
     t.string   "country"
@@ -74,6 +74,28 @@ ActiveRecord::Schema.define(version: 20170422211132) do
     t.datetime "updated_at"
     t.integer  "blocker_id"
     t.integer  "status"
+  end
+
+  create_table "gifts", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "user_id"
+    t.boolean  "reserved"
+    t.string   "title"
+    t.string   "author"
+    t.string   "isbn"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_gifts_on_book_id"
+    t.index ["user_id"], name: "index_gifts_on_user_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.integer  "gift_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gift_id"], name: "index_reservations_on_gift_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "user_settings", force: :cascade do |t|
