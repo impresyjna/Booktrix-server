@@ -72,4 +72,22 @@ RSpec.describe Api::V1::BooksController, type: :controller do
 
     end
   end
+
+  describe "GET #show" do
+    before(:each) do
+      @book = FactoryGirl.create :book
+      get :show, id: @book.id
+    end
+
+    it "returns the information about a reporter on a hash" do
+      book_response = json_response
+      expect(book_response[:title]).to eql @book.title
+      expect(book_response[:author]).to eql @book.author
+      expect(book_response[:id]).to eql @book.id
+    end
+
+    it { should respond_with 200 }
+
+
+  end
 end

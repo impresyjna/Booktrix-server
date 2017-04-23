@@ -7,7 +7,7 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def show
-
+    respond_with Book.find(params[:id])
   end
 
   def found_by_isbn
