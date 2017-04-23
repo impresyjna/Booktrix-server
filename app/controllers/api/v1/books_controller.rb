@@ -2,7 +2,8 @@ class Api::V1::BooksController < ApplicationController
   respond_to :json
 
   def index
-
+    @books = Book.search_for(params[:query])
+    render json: { "books" => @books }, fields: [:title, :author, :image], adapter: :json, status: 200
   end
 
   def show

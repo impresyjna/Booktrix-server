@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :categories, :only => [:index, :show, :create, :update, :destroy]
       resources :book_list_states, :only => [:index]
       resources :borrow_history_states, :only => [:index]
+      resources :books, :only => [:index, :show]
       get 'found_by_isbn' => 'books#found_by_isbn'
     end
   end

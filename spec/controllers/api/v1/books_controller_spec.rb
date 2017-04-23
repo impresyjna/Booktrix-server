@@ -27,4 +27,49 @@ RSpec.describe Api::V1::BooksController, type: :controller do
       it { should respond_with 404 }
     end
   end
+
+  describe "GET #index" do
+    before(:each) do
+      @book = FactoryGirl.create :book
+    end
+
+    context "when params given" do
+      before(:each) do
+        @books = Book.where(title: "Opium w rosole")
+        get :index, query: 'Opium w rosole'
+        book_response = json_response
+        expect(book_response[:books]).to eql JSON.parse(@books.to_json, symbolize_names: true)
+      end
+
+      it { should respond_with 200 }
+
+
+    end
+
+    context "when params not given" do
+      before(:each) do
+        @books = Book.all
+        get :index
+        book_response = json_response
+        expect(book_response[:books]).to eql JSON.parse(@books.to_json, symbolize_names: true)
+
+      end
+
+      it { should respond_with 200 }
+
+    end
+
+    context "when book not in database" do
+      before(:each) do
+        @books = Book.where(title: "Lśnienie")
+        get :index, query: 'Lśnienie'
+        book_response = json_response
+        expect(book_response[:books]).to eql JSON.parse(@books.to_json, symbolize_names: true)
+
+      end
+
+      it { should respond_with 200 }
+
+    end
+  end
 end
