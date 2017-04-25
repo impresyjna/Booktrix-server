@@ -25,8 +25,8 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
         @category.save
         get :show, id: @category.id
         category_response = json_response
-        expect(category_response[:name]).to eql @category.name
-        expect(category_response[:user_id]).to eql @user.id
+        expect(category_response).to have_key(:category)
+        expect(category_response[:category][:name]).to eql @category.name
       end
       it { should respond_with 200 }
     end
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
 
       it "renders the json representation for the user record just created" do
         category_response = json_response
-        expect(category_response[:name]).to eql @category_attributes[:name]
+        expect(category_response[:category][:name]).to eql @category_attributes[:name]
       end
 
       it { should respond_with 201 }
@@ -99,9 +99,9 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
 
       it "renders the json representation for the updated user" do
         category_response = json_response
-        expect(category_response[:name]).to eql "GoodOne"
-        expect(category_response[:color]).to eq "#b80000"
-        expect(category_response[:font_color]).to eq "#b80000"
+        expect(category_response[:category][:name]).to eql "GoodOne"
+        expect(category_response[:category][:color]).to eq "#b80000"
+        expect(category_response[:category][:font_color]).to eq "#b80000"
       end
 
       it { should respond_with 200 }
