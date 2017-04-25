@@ -5,6 +5,9 @@ RSpec.describe Api::V1::GiftsController, type: :controller do
     before(:each) do
       @user = FactoryGirl.create :user
       api_authorization_header @user.auth_token
+      @gift = FactoryGirl.create :gift
+      @gift.user_id = @user.id
+      @gift.save
       get :index
       gifts_response = json_response
       expect(gifts_response).to have_key(:gifts)
@@ -25,7 +28,7 @@ RSpec.describe Api::V1::GiftsController, type: :controller do
         @gift.save
         get :show, id: @gift.id
         gift_response = json_response
-        expect(gift_response[:book][:id]).to eql @gift.book_id
+        expect(gift_response[:gift]).to have_key(:book)
       end
       it { should respond_with 200 }
     end
