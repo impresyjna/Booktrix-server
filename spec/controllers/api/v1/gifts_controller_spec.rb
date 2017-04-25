@@ -25,8 +25,7 @@ RSpec.describe Api::V1::GiftsController, type: :controller do
         @gift.save
         get :show, id: @gift.id
         gift_response = json_response
-        expect(gift_response[:user_id]).to eql @user.id
-        expect(gift_response[:book_id]).to eql @gift.book_id
+        expect(gift_response[:book][:id]).to eql @gift.book_id
       end
       it { should respond_with 200 }
     end
