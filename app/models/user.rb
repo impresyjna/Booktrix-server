@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_one :user_setting, dependent: :destroy
   has_many :categories
   has_many :request_to_fixes
+  has_many :gifts
   has_friendship
 
   before_save :downcase_email

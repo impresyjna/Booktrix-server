@@ -3,7 +3,7 @@ class CreateGifts < ActiveRecord::Migration[5.0]
     create_table :gifts do |t|
       t.references :book, foreign_key: true
       t.references :user, foreign_key: true
-      t.boolean :reserved
+      t.boolean :reserved, :default => false
       t.string :title
       t.string :author
       t.string :isbn

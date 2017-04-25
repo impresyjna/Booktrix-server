@@ -79,9 +79,9 @@ ActiveRecord::Schema.define(version: 20170423213143) do
   create_table "gifts", force: :cascade do |t|
     t.integer  "book_id"
     t.integer  "user_id"
-    t.boolean  "reserved"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "reserved",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.index ["book_id"], name: "index_gifts_on_book_id"
     t.index ["user_id"], name: "index_gifts_on_user_id"
   end
