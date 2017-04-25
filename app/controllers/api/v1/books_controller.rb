@@ -7,7 +7,7 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def show
-    respond_with Book.find(params[:id])
+    render json: Book.find(params[:id]), adapter: :json, status: 200
   end
 
   def found_by_isbn
