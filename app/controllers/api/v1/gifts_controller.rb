@@ -1,5 +1,5 @@
 class Api::V1::GiftsController < ApplicationController
-  before_action :authenticate_with_http_token, only: [:create, :update, :index, :destroy, :show]
+  before_action :authenticate_with_http_token, only: [:create, :index, :destroy, :show]
   respond_to :json
 
   def index
@@ -45,12 +45,15 @@ class Api::V1::GiftsController < ApplicationController
     end
   end
 
-  def update
-
-  end
-
   def destroy
-
+    user = current_user
+    gift = user.gifts.where(id: params[:id]).first
+    if gift.present?
+      gift.destroy
+      head 204
+    else
+      head 422
+    end
   end
 
   private
