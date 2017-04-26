@@ -19,7 +19,30 @@ class Api::V1::GiftsController < ApplicationController
   end
 
   def create
-
+    user = current_user
+    if !params[:gift][:title].present? and !params[:gift][:isbn].present?
+      render json: { errors: "No title and isbn number" }, status: 422
+    else
+      book_title = Book.where(title: params[:gift][:title]).first
+      book_isbn =  Book.where(isbn: params[:gift][:isbn]).first
+      found_book = [book_title, book_isbn].uniq
+      found_book =  found_book.reject { |c| c.nil? }
+      @book = Book.new
+      case found_book.count
+        when 0
+          @book = Book.create(title: params[:gift][:title], author: params[:gift][:author], isbn: params[:gift][:isbn])
+        when 1
+          @book = found_book.first
+        else
+          @book = found_book.select{ |book| book.title == params[:gift][:title] }
+      end
+      gift = user.gifts.build(book: @book)
+      if gift.save
+        render json: gift, adapter: :json, status: 201
+      else
+        render json: { errors: gift.errors }, status: 422
+      end
+    end
   end
 
   def update
@@ -28,5 +51,11 @@ class Api::V1::GiftsController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+
+  def gift_params
+    params.require(:gift).permit(:title, :author, :isbn)
   end
 end

@@ -42,48 +42,59 @@ RSpec.describe Api::V1::GiftsController, type: :controller do
 
     end
 
-
   end
-  #
-  # describe "POST #create" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #   end
-  #
-  #   context "when is successfully created" do
-  #     before(:each) do
-  #       @category_attributes = FactoryGirl.attributes_for :category
-  #       post :create, {category: @category_attributes}
-  #     end
-  #
-  #     it "renders the json representation for the user record just created" do
-  #       category_response = json_response
-  #       expect(category_response[:name]).to eql @category_attributes[:name]
-  #     end
-  #
-  #     it { should respond_with 201 }
-  #   end
-  #
-  #   context "when is not created" do
-  #     before(:each) do
-  #       @invalid_category_attributes = {name: ""} #notice I'm not including the email
-  #       post :create, {category: @invalid_category_attributes}
-  #     end
-  #
-  #     it "renders an errors json" do
-  #       category_response = json_response
-  #       expect(category_response).to have_key(:errors)
-  #     end
-  #
-  #     it "renders the json errors on why the user could not be created" do
-  #       category_response = json_response
-  #       expect(category_response[:errors][:name]).to include "can't be blank"
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  # end
+
+  describe "POST #create" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+    end
+
+    context "when is successfully created" do
+      before(:each) do
+        @gift_attributes = {title: "Lśnienie", author: "Stephen King", isbn: ""}
+        post :create, {gift: @gift_attributes}
+      end
+
+      it "renders the json representation for the user record just created" do
+        gift_response = json_response
+        expect(gift_response).to have_key(:gift)
+      end
+
+      it { should respond_with 201 }
+    end
+
+    context "when is successfully created with isbn" do
+      before(:each) do
+        @book = FactoryGirl.create :book
+        @gift_attributes = {title: @book.title, author: @book.author, isbn: @book.isbn}
+        post :create, {gift: @gift_attributes}
+      end
+
+      it "renders the json representation for the user record just created" do
+        gift_response = json_response
+        expect(gift_response).to have_key(:gift)
+        expect(gift_response[:gift][:book][:title]).to eql @book.title
+        expect(gift_response[:gift][:book][:id]).to eql @book.id
+      end
+
+      it { should respond_with 201 }
+    end
+
+    context "when is not created" do
+      before(:each) do
+        @invalid_gift_attributes = {title: "", author: "Stephen King", isbn: ""} #notice I'm not including the email
+        post :create, {category: @invalid_gift_attributes}
+      end
+
+      it "renders an errors json" do
+        gift_response = json_response
+        expect(gift_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422 }
+    end
+  end
   #
   # describe "PUT/PATCH #update" do
   #   before(:each) do
