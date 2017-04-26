@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'found_by_isbn' => 'books#found_by_isbn'
       resources :request_to_fixes, :only => [:create]
       resources :gifts, :only => [:index, :show, :create, :destroy]
+      resources :reservations, :only => [:index, :create, :destroy]
     end
   end
 end
