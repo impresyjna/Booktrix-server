@@ -17,11 +17,11 @@ class Api::V1::BooksController < ApplicationController
     else
       link_to_open = "https://www.worldcat.org/isbn/" + isbn
       page = Nokogiri::HTML(open(link_to_open))
+      page.encoding = 'utf-8'
       book = Book.new
 
       #Title details
       book.title = page.css('.title').text
-      puts book.title
       if (!book.title.present?)
         head 404
 
