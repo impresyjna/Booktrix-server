@@ -103,11 +103,16 @@ RSpec.describe Api::V1::GiftsController, type: :controller do
       @gift = FactoryGirl.create :gift
       @gift.user_id = @user.id
       @gift.save
+      @reservation = Reservation.create(user_id: @user.id, gift_id: @gift.id)
     end
 
     context "when delete success" do
       before(:each) do
         delete :destroy, {id: @gift.id}
+      end
+
+      it "reservations should be destroyed" do
+        expect(@user.reservations).to be_empty
       end
 
       it { should respond_with 204 }
