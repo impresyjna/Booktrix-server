@@ -8,7 +8,7 @@ class Book < ApplicationRecord
   validate :check_length
 
   def check_length
-    if isbn.present?
+    if !isbn.empty?
       unless (isbn || '').match(ISBN10_REGEX) || (isbn || '').match(ISBN13_REGEX)
         errors.add(:isbn, "length must be 10 or 13")
       end
