@@ -5,7 +5,7 @@ RSpec.describe Api::V1::RequestToFixesController, type: :controller do
     before(:each) do
       @user = FactoryGirl.create :user
       @book = FactoryGirl.create :book
-      @request_to_fix = FactoryGirl.build :request_to_fix
+      @request_to_fix = {book_id: @book.id, notice: "Hello"}
       api_authorization_header @user.auth_token
     end
 
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::RequestToFixesController, type: :controller do
 
     context "when is successfully created with blank notice" do
       before(:each) do
-        @request_to_fix.notice = ''
+        @request_to_fix = {book_id: @book.id, notice: ""}
         post :create, {request_to_fix: @request_to_fix}
       end
 
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::RequestToFixesController, type: :controller do
 
     context "when is not created" do
       before(:each) do
-        @request_to_fix.book_id = 1000
+        @request_to_fix = {book_id: 1000, notice: "Hello"}
         post :create, {request_to_fix: @request_to_fix}
       end
 
