@@ -9,7 +9,19 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def create
+    user = current_user
+    gift = Gift.where(id: params[:reservation][:gift_id]).first
 
+    if gift.present? and user.friends.include?(gift.user)
+      reservation = user.reservations.build(gift_id: gift.id)
+      if reservation.save
+        render json: reservation, adapter: :json, status: 201
+      else
+        render json: {errors: reservation.errors}, status: 422
+      end
+    else
+      render json: {errors: "No gift with this id"}, status: 422
+    end
   end
 
   def destroy
