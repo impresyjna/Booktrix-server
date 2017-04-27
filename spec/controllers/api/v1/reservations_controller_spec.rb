@@ -57,36 +57,39 @@ RSpec.describe Api::V1::ReservationsController, type: :controller do
     end
   end
 
-  # describe "DELETE #destroy" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #     @gift = FactoryGirl.create :gift
-  #     @gift.user_id = @user.id
-  #     @gift.save
-  #     @reservation = Reservation.create(user_id: @user.id, gift_id: @gift.id)
-  #   end
-  #
-  #   context "when delete success" do
-  #     before(:each) do
-  #       delete :destroy, {id: @gift.id}
-  #     end
-  #
-  #     it "reservations should be destroyed" do
-  #       expect(@user.reservations).to be_empty
-  #     end
-  #
-  #     it { should respond_with 204 }
-  #   end
-  #
-  #   context "when cannot delete - category doesn't exists" do
-  #     before(:each) do
-  #       @gift.user_id = @gift.user_id + 1
-  #       @gift.save
-  #       delete :destroy, {id: @gift.id}
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  # end
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @gift = FactoryGirl.create :gift
+      @friend = FactoryGirl.create :friend
+      @user.friend_request(@friend)
+      @friend.accept_request(@user)
+      @gift.user_id = @friend.id
+      @gift.save
+      @reservation = Reservation.create(user_id: @user.id, gift_id: @gift.id)
+    end
+
+    context "when delete success" do
+      before(:each) do
+        delete :destroy, {id: @reservation.id}
+      end
+
+      it "reservations should be destroyed" do
+        expect(@user.reservations).to be_empty
+      end
+
+      it { should respond_with 204 }
+    end
+
+    context "when cannot delete - category doesn't exists" do
+      before(:each) do
+        @reservation.user_id = @reservation.user_id + 1
+        @reservation.save
+        delete :destroy, {id: @reservation.id}
+      end
+
+      it { should respond_with 422 }
+    end
+  end
 end

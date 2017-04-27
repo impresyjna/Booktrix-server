@@ -25,7 +25,14 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def destroy
-
+    user = current_user
+    reservation = user.reservations.where(id: params[:id]).first
+    if reservation.present?
+      reservation.destroy
+      head 204
+    else
+      head 422
+    end
   end
 
 end
