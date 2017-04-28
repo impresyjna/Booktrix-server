@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :request_to_fixes
   has_many :gifts, dependent: :destroy
   has_many :reservations
+  has_many :book_lists
   has_friendship
 
   before_save :downcase_email

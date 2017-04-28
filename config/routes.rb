@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :request_to_fixes, :only => [:create]
       resources :gifts, :only => [:index, :show, :create, :destroy]
       resources :reservations, :only => [:index, :create, :destroy]
+      resources :book_lists, :only => [:index, :create, :update, :destroy]
     end
   end
 end
