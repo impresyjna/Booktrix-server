@@ -38,45 +38,74 @@ RSpec.describe Api::V1::BookListsController, type: :controller do
 
   end
 
-  # describe "POST #create" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #   end
-  #
-  #   context "when is successfully created" do
-  #     before(:each) do
-  #       @category_attributes = FactoryGirl.attributes_for :category
-  #       post :create, {category: @category_attributes}
-  #     end
-  #
-  #     it "renders the json representation for the user record just created" do
-  #       category_response = json_response
-  #       expect(category_response[:category][:name]).to eql @category_attributes[:name]
-  #     end
-  #
-  #     it { should respond_with 201 }
-  #   end
-  #
-  #   context "when is not created" do
-  #     before(:each) do
-  #       @invalid_category_attributes = {name: ""} #notice I'm not including the email
-  #       post :create, {category: @invalid_category_attributes}
-  #     end
-  #
-  #     it "renders an errors json" do
-  #       category_response = json_response
-  #       expect(category_response).to have_key(:errors)
-  #     end
-  #
-  #     it "renders the json errors on why the user could not be created" do
-  #       category_response = json_response
-  #       expect(category_response[:errors][:name]).to include "can't be blank"
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  # end
+  describe "POST #create" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @book = FactoryGirl.create :book
+    end
+
+    context "when is successfully created want_to_read" do
+      before(:each) do
+        @book_list_attributes = {book_id: @book.id, book_list_state_id: 0}
+        post :create, {book_list: @book_list_attributes}
+      end
+
+      it "renders the json representation for the user record just created" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:success)
+      end
+
+      it { should respond_with 201 }
+    end
+
+    context "when is successfully created reading" do
+      before(:each) do
+        @book_list_attributes = {book_id: @book.id, book_list_state_id: 1}
+        post :create, {book_list: @book_list_attributes}
+      end
+
+      it "renders the json representation for the user record just created" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:success)
+      end
+
+      it { should respond_with 201 }
+    end
+
+    context "when is successfully created read" do
+      before(:each) do
+        @book_list_attributes = {book_id: @book.id, book_list_state_id: 2}
+        post :create, {book_list: @book_list_attributes}
+      end
+
+      it "renders the json representation for the user record just created" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:success)
+      end
+
+      it { should respond_with 201 }
+    end
+
+    context "when is not created" do
+      before(:each) do
+        @invalid_book_list_attributes = {book_id: @book.id+1, book_list_state_id: 0} #notice I'm not including the email
+        post :create, {category: @invalid_book_list_attributes}
+      end
+
+      it "renders an errors json" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:errors)
+      end
+
+      it "renders the json errors on why the user could not be created" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422 }
+    end
+  end
   #
   # describe "PUT/PATCH #update" do
   #   before(:each) do

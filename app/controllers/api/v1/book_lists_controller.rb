@@ -9,7 +9,18 @@ class Api::V1::BookListsController < ApplicationController
   end
 
   def create
-
+    user = current_user
+    book = Book.where(id: params[:book_list][:book_id]).first
+    if book.present?
+      book_list = user.book_lists.build(book_list_params)
+      if book_list.save
+        render json: {success: "Saved"}, status: 201
+      else
+        render json: {errors: "Cannot save"}, status: 422
+      end
+    else
+      render json: {errors: "No book with this id"}, status: 422
+    end
   end
 
   def update
@@ -18,6 +29,12 @@ class Api::V1::BookListsController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+
+  def book_list_params
+    params.require(:book_list).permit(:book_id, :book_list_state_id)
   end
 
 end
