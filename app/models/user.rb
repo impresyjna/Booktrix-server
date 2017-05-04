@@ -1,10 +1,11 @@
 class User < ActiveRecord::Base
   has_one :user_setting, dependent: :destroy
-  has_many :categories
+  has_many :categories, dependent: :destroy
   has_many :request_to_fixes
   has_many :gifts, dependent: :destroy
-  has_many :reservations
-  has_many :book_lists
+  has_many :reservations, dependent: :destroy
+  has_many :book_lists, dependent: :destroy
+  has_many :user_books, dependent: :destroy
   has_friendship
 
   before_save :downcase_email
