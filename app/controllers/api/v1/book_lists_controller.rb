@@ -39,7 +39,14 @@ class Api::V1::BookListsController < ApplicationController
   end
 
   def destroy
-
+    user = current_user
+    book_list = user.book_lists.where(id: params[:id]).first
+    if book_list.present?
+      book_list.destroy
+      head 204
+    else
+      head 422
+    end
   end
 
   private

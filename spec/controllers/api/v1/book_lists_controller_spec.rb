@@ -152,31 +152,34 @@ RSpec.describe Api::V1::BookListsController, type: :controller do
     end
   end
 
-  # describe "DELETE #destroy" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #     @category = FactoryGirl.create :category
-  #     @category.user_id = @user.id
-  #     @category.save
-  #   end
-  #
-  #   context "when delete success" do
-  #     before(:each) do
-  #       delete :destroy, {id: @category.id}
-  #     end
-  #
-  #     it { should respond_with 204 }
-  #   end
-  #
-  #   context "when cannot delete - category doesn't exists" do
-  #     before(:each) do
-  #       @category.user_id = @category.user_id + 1
-  #       @category.save
-  #       delete :destroy, {id: @category.id}
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  # end
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @book = FactoryGirl.create :book
+      @book_list = BookList.create(book_id: @book.id, book_list_state_id: 0, user_id: @user.id)
+    end
+
+    context "when delete success" do
+      before(:each) do
+        delete :destroy, {id: @book_list.id}
+      end
+
+      it "user list has to be empty" do
+        expect(@user.book_lists).to be_empty
+      end
+
+      it { should respond_with 204 }
+    end
+
+    context "when cannot delete - category doesn't exists" do
+      before(:each) do
+        @book_list.user_id = @book_list.user_id + 1
+        @book_list.save
+        delete :destroy, {id: @book_list.id}
+      end
+
+      it { should respond_with 422 }
+    end
+  end
 end
