@@ -24,7 +24,18 @@ class Api::V1::BookListsController < ApplicationController
   end
 
   def update
-
+    user = current_user
+    book_list = user.book_lists.where(id: params[:id]).first
+    book_list_state = BookListState.where(id: params[:book_list_state_id]).first
+    if book_list.present? and book_list_state.present?
+      if book_list.update(book_list_params)
+        render json: {success: "Updated"}, status: 200
+      else
+        render json: {errors: book_list.errors}, status: 422
+      end
+    else
+      render json: {errors: "Cannot update"}, status: 422
+    end
   end
 
   def destroy

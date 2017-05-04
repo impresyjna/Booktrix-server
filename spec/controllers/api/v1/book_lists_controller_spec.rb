@@ -106,62 +106,52 @@ RSpec.describe Api::V1::BookListsController, type: :controller do
       it { should respond_with 422 }
     end
   end
-  #
-  # describe "PUT/PATCH #update" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #     @category = FactoryGirl.create :category
-  #     @category.user_id = @user.id
-  #     @category.save
-  #   end
-  #
-  #   context "when is successfully updated" do
-  #     before(:each) do
-  #       patch :update, {id: @category.id, category: {name: "GoodOne", color: "#b80000", font_color: "#b80000"}}
-  #     end
-  #
-  #     it "renders the json representation for the updated user" do
-  #       category_response = json_response
-  #       expect(category_response[:category][:name]).to eql "GoodOne"
-  #       expect(category_response[:category][:color]).to eq "#b80000"
-  #       expect(category_response[:category][:font_color]).to eq "#b80000"
-  #     end
-  #
-  #     it { should respond_with 200 }
-  #   end
-  #
-  #   context "when is not updated" do
-  #     before(:each) do
-  #       patch :update, {id: @category.id, category: {name: "", color: "b80000", font_color: "b80000"}}
-  #     end
-  #
-  #     it "renders an errors json" do
-  #       category_response = json_response
-  #       expect(category_response).to have_key(:errors)
-  #     end
-  #
-  #     it "renders the json errors on whye the user could not be updated" do
-  #       category_response = json_response
-  #       expect(category_response[:errors][:name]).to include "can't be blank"
-  #       expect(category_response[:errors][:color]).to include "is invalid"
-  #       expect(category_response[:errors][:font_color]).to include "is invalid"
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  #
-  #   context "when update is impossible - category doesn't exist" do
-  #     before(:each) do
-  #       @category.user_id = @category.user_id + 1
-  #       @category.save
-  #       patch :update, {id: @category.id, category: {name: "GoodOne", color: "#b80000", font_color: "#b80000"}}
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  # end
-  #
+
+  describe "PUT/PATCH #update" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @book = FactoryGirl.create :book
+      @book_list = BookList.create(book_id: @book.id, book_list_state_id: 0, user_id: @user.id)
+    end
+
+    context "when is successfully updated" do
+      before(:each) do
+        patch :update, {id: @book_list.id, book_list_state_id: 1}
+      end
+
+      it "renders the json representation for the updated user" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:success)
+      end
+
+      it { should respond_with 200 }
+    end
+
+    context "when is not updated" do
+      before(:each) do
+        patch :update, {id: @book_list.id, book_list_state_id: 100}
+      end
+
+      it "renders an errors json" do
+        book_list_response = json_response
+        expect(book_list_response).to have_key(:errors)
+      end
+
+      it { should respond_with 422 }
+    end
+
+    context "when update is impossible - category doesn't exist" do
+      before(:each) do
+        @book_list.user_id = @book_list.user_id + 1
+        @book_list.save
+        patch :update, {id: @book_list.id, book_list_state_id: 1}
+      end
+
+      it { should respond_with 422 }
+    end
+  end
+
   # describe "DELETE #destroy" do
   #   before(:each) do
   #     @user = FactoryGirl.create :user
