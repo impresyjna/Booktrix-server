@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :reservations, :only => [:index, :create, :destroy]
       resources :book_lists, :only => [:index, :create, :update, :destroy]
       resources :user_books, :only => [:index, :show, :create, :update, :destroy]
+      resources :borrows, :only => [:create, :destroy]
     end
   end
 end
