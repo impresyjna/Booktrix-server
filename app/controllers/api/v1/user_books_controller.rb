@@ -3,7 +3,9 @@ class Api::V1::UserBooksController < ApplicationController
   respond_to :json
 
   def index
-
+    user = current_user
+    user_books = user.user_books.where(borrowed: params[:borrowed] == "true" ? true : false)
+    render json: user_books, root: "user_books", adapter: :json, status: 200
   end
 
   def show

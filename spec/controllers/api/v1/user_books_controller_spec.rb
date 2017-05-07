@@ -10,9 +10,10 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
 
     context "get list of books in library" do
       before(:each) do
-        get :index
-        categories_response = json_response
-        expect(categories_response).to have_key(:categories)
+        @user_book = UserBook.create(book_id: @book.id, user_id: @user.id)
+        get :index, borrowed: false
+        user_books_response = json_response
+        expect(user_books_response).to have_key(:user_books)
       end
 
       it { should respond_with 200 }
@@ -21,9 +22,10 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
 
     context "get list of borrowed books" do
       before(:each) do
-        get :index
-        categories_response = json_response
-        expect(categories_response).to have_key(:categories)
+        @user_book = UserBook.create(book_id: @book.id, user_id: @user.id, borrowed: true)
+        get :index, borrowed: true
+        user_books_response = json_response
+        expect(user_books_response).to have_key(:user_books)
       end
 
       it { should respond_with 200 }
