@@ -172,32 +172,30 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
   #   end
   # end
   #
-  # describe "DELETE #destroy" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #     @category = FactoryGirl.create :category
-  #     @category.user_id = @user.id
-  #     @category.save
-  #   end
-  #
-  #   context "when delete success" do
-  #     before(:each) do
-  #       delete :destroy, {id: @category.id}
-  #     end
-  #
-  #     it { should respond_with 204 }
-  #   end
-  #
-  #   context "when cannot delete - category doesn't exists" do
-  #     before(:each) do
-  #       @category.user_id = @category.user_id + 1
-  #       @category.save
-  #       delete :destroy, {id: @category.id}
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @category = FactoryGirl.create :category
+      @book  = FactoryGirl.create :book
+      @user_book = UserBook.create(book_id: @book.id, user_id: @user.id)
+    end
 
+    context "when delete success" do
+      before(:each) do
+        delete :destroy, {id: @user_book.id}
+      end
 
+      it { should respond_with 204 }
+    end
+
+    context "when cannot delete - category doesn't exists" do
+      before(:each) do
+        delete :destroy, {id: @user_book.id+1}
+      end
+
+      it { should respond_with 422 }
+    end
   end
+
+end
