@@ -23,6 +23,7 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
     context "get list of borrowed books" do
       before(:each) do
         @user_book = UserBook.create(book_id: @book.id, user_id: @user.id, borrowed: true)
+        @borrow = Borrow.create(user_book_id: @user_book.id, user_id: @user.id, state_id: 0)
         get :index, borrowed: true
         user_books_response = json_response
         expect(user_books_response).to have_key(:user_books)
@@ -34,36 +35,36 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
 
   end
 
-  # describe "GET #show" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #     @category = FactoryGirl.create :category
-  #   end
-  #
-  #   context "when category belongs to user and exists" do
-  #     before(:each) do
-  #       @category.user_id = @user.id
-  #       @category.save
-  #       get :show, id: @category.id
-  #       category_response = json_response
-  #       expect(category_response).to have_key(:category)
-  #       expect(category_response[:category][:name]).to eql @category.name
-  #     end
-  #     it { should respond_with 200 }
-  #   end
-  #
-  #   context "when category doesn't belong to user or exists" do
-  #     before(:each) do
-  #       get :show, id: @category.id
-  #     end
-  #
-  #     it { should respond_with 404 }
-  #
-  #   end
-  #
-  #
-  # end
+  describe "GET #show" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
+      @book = FactoryGirl.create :book
+      @user_book = UserBook.create(book_id: @book.id, user_id: @user.id)
+    end
+
+    context "when category belongs to user and exists" do
+      before(:each) do
+        get :show, id: @user_book.id
+        user_book_response = json_response
+        expect(user_book_response).to have_key(:user_book)
+        expect(user_book_response[:user_book]).to have_key(:book)
+        expect(user_book_response[:user_book]).to have_key(:category)
+      end
+      it { should respond_with 200 }
+    end
+
+    context "when category doesn't belong to user or exists" do
+      before(:each) do
+        get :show, id: @user_book.id + 1
+      end
+
+      it { should respond_with 404 }
+
+    end
+
+
+  end
   #
   # describe "POST #create" do
   #   before(:each) do
