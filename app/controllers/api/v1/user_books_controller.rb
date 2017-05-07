@@ -48,7 +48,17 @@ class Api::V1::UserBooksController < ApplicationController
   end
 
   def update
-
+    user = current_user
+    user_book = user.user_books.where(id: params[:id]).first
+    if user_book.present?
+      if user_book.book.update(book_params) and user_book.update(category_id: params[:category])
+        render json: user_book, root: "user_book", adapter: :json, status: 200
+      else
+        render json: { errors: "Problem"}, status: 422
+      end
+    else
+      head 422
+    end
   end
 
   def destroy
