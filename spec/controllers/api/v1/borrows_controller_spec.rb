@@ -198,32 +198,65 @@ RSpec.describe Api::V1::BorrowsController, type: :controller do
 
   end
 
-  # describe "DELETE #destroy" do
-  #   before(:each) do
-  #     @user = FactoryGirl.create :user
-  #     api_authorization_header @user.auth_token
-  #     @category = FactoryGirl.create :category
-  #     @category.user_id = @user.id
-  #     @category.save
-  #   end
-  #
-  #   context "when delete success" do
-  #     before(:each) do
-  #       delete :destroy, {id: @category.id}
-  #     end
-  #
-  #     it { should respond_with 204 }
-  #   end
-  #
-  #   context "when cannot delete - category doesn't exists" do
-  #     before(:each) do
-  #       @category.user_id = @category.user_id + 1
-  #       @category.save
-  #       delete :destroy, {id: @category.id}
-  #     end
-  #
-  #     it { should respond_with 422 }
-  #   end
-  #
-  # end
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @friend = FactoryGirl.create :friend
+      api_authorization_header @user.auth_token
+      @book = FactoryGirl.create :book
+      @user_book = UserBook.create(user_id: @user.id, book_id: @book.id)
+      @borrow = Borrow.create(user_book_id: @user_book.id, user_id: @user.id, state_id: 1)
+    end
+
+    context "when returned success" do
+      before(:each) do
+        delete :destroy, {id: @borrow.id, borrow_state: 2}
+      end
+
+      it { should respond_with 204 }
+    end
+
+    context "when demolished success" do
+      before(:each) do
+        delete :destroy, {id: @borrow.id, borrow_state: 3}
+      end
+
+      it { should respond_with 204 }
+    end
+
+    context "when canceled success" do
+      before(:each) do
+        @borrow.state_id = 0
+        @borrow.save
+        delete :destroy, {id: @borrow.id, borrow_state: 4}
+      end
+
+      it { should respond_with 204 }
+    end
+
+    context "when returned unsuccessful" do
+      before(:each) do
+        delete :destroy, {id: @borrow.id+1, borrow_state: 2}
+      end
+
+      it { should respond_with 422 }
+    end
+
+    context "when demolished unsuccsessful" do
+      before(:each) do
+        delete :destroy, {id: @borrow.id+1, borrow_state: 3}
+      end
+
+      it { should respond_with 422 }
+    end
+
+    context "when canceled unsuccessful" do
+      before(:each) do
+        delete :destroy, {id: @borrow.id, borrow_state: 4}
+      end
+
+      it { should respond_with 422 }
+    end
+
+  end
 end

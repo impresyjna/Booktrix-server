@@ -52,6 +52,8 @@ class Api::V1::BorrowsController < ApplicationController
           end
 
           if @borrow
+            @user_book.borrowed = true
+            @user_book.save
             render json: {success: "Success"}, status: 201
           else
             render json: {errors: @borrow.errors}, status: 422
@@ -63,7 +65,31 @@ class Api::V1::BorrowsController < ApplicationController
   end
 
   def destroy
-
+    user = current_user
+    case params[:borrow_state]
+      when BorrowHistoryState.states[:returned], BorrowHistoryState.states[:demolished]
+        borrow = Borrow.where(id: params[:id]).first
+        if borrow.present? and borrow.user_book.user.id == user.id and borrow.state_id == BorrowHistoryState.states[:borrowed]
+          #TODO: Borrow history here
+          borrow.user_book.borrowed = false
+          borrow.user_book.save
+          borrow.destroy
+          head 204
+        else
+          head 422
+        end
+      when BorrowHistoryState.states[:canceled]
+        borrow = user.borrows.where(id: params[:id]).first
+        if borrow.present? and borrow.state_id == BorrowHistoryState.states[:reserved]
+          #TODO: Borrow history here
+          borrow.destroy
+          head 204
+        else
+          head 422
+        end
+      else
+        head 422
+    end
   end
 
   private
