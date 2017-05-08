@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :book_lists, :only => [:index, :create, :update, :destroy]
       resources :user_books, :only => [:index, :show, :create, :update, :destroy]
       resources :borrows, :only => [:create, :destroy]
+      resources :borrow_histories, :only => [:index]
     end
   end
 end
