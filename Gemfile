@@ -29,6 +29,7 @@ gem 'nokogiri'
 gem 'has_friendship'
 gem "scoped_search"
 gem 'isbn_validation'
+gem 'active_record-acts_as'
 
 
 group :development, :test do

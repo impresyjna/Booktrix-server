@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507215156) do
+ActiveRecord::Schema.define(version: 20170510104148) do
+
+  create_table "activities", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "book_activities", force: :cascade do |t|
+    t.integer  "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_book_activities_on_book_id"
+  end
 
   create_table "book_list_state_translations", force: :cascade do |t|
     t.string   "country"
@@ -121,6 +135,17 @@ ActiveRecord::Schema.define(version: 20170507215156) do
     t.datetime "updated_at",                 null: false
     t.index ["book_id"], name: "index_gifts_on_book_id"
     t.index ["user_id"], name: "index_gifts_on_user_id"
+  end
+
+  create_table "marks", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "user_id"
+    t.integer  "value"
+    t.text     "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_marks_on_book_id"
+    t.index ["user_id"], name: "index_marks_on_user_id"
   end
 
   create_table "request_to_fixes", force: :cascade do |t|

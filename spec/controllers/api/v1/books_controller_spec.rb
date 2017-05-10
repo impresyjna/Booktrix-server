@@ -5,6 +5,8 @@ RSpec.describe Api::V1::BooksController, type: :controller do
     context "when is successfully founded" do
       before(:each) do
         @book = FactoryGirl.create :book
+        @user = FactoryGirl.create :user
+        @mark = Mark.create(book_id: @book.id, user_id: @user.id, value: 10, comment: "Text")
         get :found_by_isbn, isbn: @book.isbn
       end
 
