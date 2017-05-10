@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :book_lists, dependent: :destroy
   has_many :user_books, dependent: :destroy
   has_many :borrows
+  has_many :marks
   has_friendship
 
   before_save :downcase_email
