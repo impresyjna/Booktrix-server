@@ -1,8 +1,12 @@
 class BorrowHistorySerializer < ActiveModel::Serializer
-  attributes :id, :user_book, :user_name, :user_surname, :borrow_history_state
+  attributes :id, :user_book, :borrower, :user_name, :user_surname, :borrow_history_state
 
   def user_book
     UserBookSerializer.new(object.user_book, { root: false } )
+  end
+
+  def borrower
+    FriendSerializer.new(object.user, {root: false} )
   end
 
   def borrow_history_state

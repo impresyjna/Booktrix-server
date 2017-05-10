@@ -12,7 +12,6 @@ RSpec.describe Api::V1::BorrowHistoriesController, type: :controller do
       @borrow_history = BorrowHistory.create(user_book_id: @user_book.id, user_id: @friend.id, borrow_history_state_id: 1)
       get :index, user_book_id: @user_book.id
       borrow_history_response = json_response
-      binding.pry
       expect(borrow_history_response).to have_key(:borrow_history)
     end
     it { should respond_with 200 }
