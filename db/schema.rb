@@ -10,19 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510104148) do
+ActiveRecord::Schema.define(version: 20170511073250) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "actable_type"
+    t.integer  "actable_id"
+    t.index ["actable_type", "actable_id"], name: "index_activities_on_actable_type_and_actable_id"
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
+  create_table "add_to_library_activities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
   create_table "book_activities", force: :cascade do |t|
     t.integer  "book_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "actable_type"
+    t.integer  "actable_id"
+    t.index ["actable_type", "actable_id"], name: "index_book_activities_on_actable_type_and_actable_id"
     t.index ["book_id"], name: "index_book_activities_on_book_id"
   end
 
@@ -64,6 +75,11 @@ ActiveRecord::Schema.define(version: 20170510104148) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "publisher_city"
+  end
+
+  create_table "borrow_book_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "borrow_histories", force: :cascade do |t|
@@ -117,6 +133,17 @@ ActiveRecord::Schema.define(version: 20170510104148) do
     t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
+  create_table "finished_reading_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "friends_activities", force: :cascade do |t|
+    t.integer  "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "friendships", force: :cascade do |t|
     t.string   "friendable_type"
     t.integer  "friendable_id"
@@ -125,6 +152,11 @@ ActiveRecord::Schema.define(version: 20170510104148) do
     t.datetime "updated_at"
     t.integer  "blocker_id"
     t.integer  "status"
+  end
+
+  create_table "gift_add_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "gifts", force: :cascade do |t|
@@ -137,6 +169,13 @@ ActiveRecord::Schema.define(version: 20170510104148) do
     t.index ["user_id"], name: "index_gifts_on_user_id"
   end
 
+  create_table "mark_activities", force: :cascade do |t|
+    t.integer  "mark_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mark_id"], name: "index_mark_activities_on_mark_id"
+  end
+
   create_table "marks", force: :cascade do |t|
     t.integer  "book_id"
     t.integer  "user_id"
@@ -146,6 +185,11 @@ ActiveRecord::Schema.define(version: 20170510104148) do
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_marks_on_book_id"
     t.index ["user_id"], name: "index_marks_on_user_id"
+  end
+
+  create_table "reading_book_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "request_to_fixes", force: :cascade do |t|
@@ -210,6 +254,11 @@ ActiveRecord::Schema.define(version: 20170510104148) do
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "want_to_read_book_activities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
