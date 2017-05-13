@@ -38,6 +38,7 @@ class Api::V1::UserBooksController < ApplicationController
     if @book.id.present?
     user_book = user.user_books.build(book_id: @book.id, category_id: params[:category])
     if user_book.save
+      AddToLibraryActivity.create(user_id: user.id, book_id: @book.id)
       render json: user_book, adapter: :json, status: 201
     else
       render json: { errors: user_book.errors }, status: 422
