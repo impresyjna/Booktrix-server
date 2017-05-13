@@ -14,6 +14,14 @@ class Api::V1::BookListsController < ApplicationController
     if book.present?
       book_list = user.book_lists.build(book_list_params)
       if book_list.save
+        case book_list.book_list_state_id
+          when BookListState.states[:want_to_read]
+            WantToReadBookActivity.create(user_id: user.id, book_id: book.id)
+          when BookListState.states[:reading]
+            ReadingBookActivity.create(user_id: user.id, book_id: book.id)
+          when BookListState.states[:read]
+            FinishedReadingActivity.create(user_id: user.id, book_id: book.id)
+        end
         render json: {success: "Saved"}, status: 201
       else
         render json: {errors: "Cannot save"}, status: 422
@@ -29,6 +37,14 @@ class Api::V1::BookListsController < ApplicationController
     book_list_state = BookListState.where(id: params[:book_list_state_id]).first
     if book_list.present? and book_list_state.present?
       if book_list.update(book_list_params)
+        case book_list.book_list_state_id
+          when BookListState.states[:want_to_read]
+            WantToReadBookActivity.create(user_id: user.id, book_id: book_list.book.id)
+          when BookListState.states[:reading]
+            ReadingBookActivity.create(user_id: user.id, book_id: book_list.book.id)
+          when BookListState.states[:read]
+            FinishedReadingActivity.create(user_id: user.id, book_id: book_list.book.id)
+        end
         render json: {success: "Updated"}, status: 200
       else
         render json: {errors: book_list.errors}, status: 422
