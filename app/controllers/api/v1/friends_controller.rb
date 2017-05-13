@@ -41,6 +41,7 @@ class Api::V1::FriendsController < ApplicationController
           render json: {errors: "Cannot accept this request"}, status: 422
         else
           user.accept_request(friend)
+          FriendsActivity.create(user_id: user.id, friend_id: friend.id)
           render json: {success: "Friend accepted"}, status: 200
         end
       when "block"
