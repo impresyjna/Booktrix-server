@@ -38,6 +38,7 @@ class Api::V1::GiftsController < ApplicationController
       end
       gift = user.gifts.build(book: @book)
       if gift.save
+        GiftAddActivity.create(user_id: user.id, book_id: @book.id)
         render json: gift, adapter: :json, status: 201
       else
         render json: { errors: gift.errors }, status: 422
