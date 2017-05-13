@@ -7,6 +7,7 @@ class Api::V1::MarksController < ApplicationController
     if Book.find_by(id: params[:mark][:book_id]).present?
       mark = user.marks.build(mark_params)
       if mark.save
+        MarkActivity.create(user_id: user.id, book_id: mark.book.id, mark_id: mark.id)
         render json: {success: "Success"}, status: 201
       else
         render json: {errors: mark.errors}, status: 422
@@ -22,6 +23,7 @@ class Api::V1::MarksController < ApplicationController
       mark = user.marks.find_by(id: params[:id])
       if mark.present?
         if mark.update(mark_params)
+          MarkActivity.create(user_id: user.id, book_id: mark.book.id, mark_id: mark.id)
           render json: {success: "Success"}, status: 200
         else
           render json: {errors: mark.errors}, status: 422
