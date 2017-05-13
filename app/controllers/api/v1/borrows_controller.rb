@@ -54,6 +54,7 @@ class Api::V1::BorrowsController < ApplicationController
           if @borrow
             @user_book.borrowed = true
             @user_book.save
+            BorrowBookActivity.create(user_id: user, book_id: @user_book.book.id)
             render json: {success: "Success"}, status: 201
           else
             render json: {errors: @borrow.errors}, status: 422
