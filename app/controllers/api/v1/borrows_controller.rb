@@ -10,8 +10,8 @@ class Api::V1::BorrowsController < ApplicationController
         book_borrow = Borrow.where(user_book_id: params[:borrow][:user_book_id]).first
         if !borrow.present? and !book_borrow.present?
           borrow = Borrow.new(user_id: user.id, user_book_id: params[:borrow][:user_book_id], user_name: user.name, user_surname: user.surname, state_id: BorrowHistoryState.states[:reserved])
-          #TODO: History of borrow here
           if borrow.save
+            BorrowHistory.new(user_id: user.id, user_book_id: params[:borrow][:user_book_id], user_name: user.name, user_surname: user.surname, borrow_history_state_id: BorrowHistoryState.states[:reserved])
             render json: {success: "Reserved"}, status: 201
           else
             render json: {errors: "Problem"}, status: 422
@@ -44,7 +44,6 @@ class Api::V1::BorrowsController < ApplicationController
             @borrow = Borrow.new
           end
 
-          #TODO: History of borrow here
           if @borrower.present?
             @borrow = @borrow.update(user_id: @borrower.id, user_book_id: @user_book.id, user_name: @borrower.name, user_surname: @borrower.surname, state_id: BorrowHistoryState.states[:borrowed])
           else
@@ -54,6 +53,7 @@ class Api::V1::BorrowsController < ApplicationController
           if @borrow
             @user_book.borrowed = true
             @user_book.save
+            BorrowHistory.new(user_id: user.id, user_book_id: params[:borrow][:user_book_id], user_name: user.name, user_surname: user.surname, borrow_history_state_id: BorrowHistoryState.states[:borrowed])
             BorrowBookActivity.create(user_id: user, book_id: @user_book.book.id)
             render json: {success: "Success"}, status: 201
           else
@@ -71,9 +71,9 @@ class Api::V1::BorrowsController < ApplicationController
       when BorrowHistoryState.states[:returned], BorrowHistoryState.states[:demolished]
         borrow = Borrow.where(id: params[:id]).first
         if borrow.present? and borrow.user_book.user.id == user.id and borrow.state_id == BorrowHistoryState.states[:borrowed]
-          #TODO: Borrow history here
           borrow.user_book.borrowed = false
           borrow.user_book.save
+          BorrowHistory.new(user_id: user.id, user_book_id: params[:borrow][:user_book_id], user_name: user.name, user_surname: user.surname, borrow_history_state_id: params[:borrow_state])
           borrow.destroy
           head 204
         else
@@ -82,7 +82,7 @@ class Api::V1::BorrowsController < ApplicationController
       when BorrowHistoryState.states[:canceled]
         borrow = user.borrows.where(id: params[:id]).first
         if borrow.present? and borrow.state_id == BorrowHistoryState.states[:reserved]
-          #TODO: Borrow history here
+          BorrowHistory.new(user_id: user.id, user_book_id: params[:borrow][:user_book_id], user_name: user.name, user_surname: user.surname, borrow_history_state_id: BorrowHistoryState.states[:canceled])
           borrow.destroy
           head 204
         else
