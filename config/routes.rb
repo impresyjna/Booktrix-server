@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       resources :borrows, :only => [:create, :destroy]
       resources :borrow_histories, :only => [:index]
       resources :marks, :only => [:create, :update, :destroy]
+      resources :activities, :only => [:index]
     end
   end
 end
