@@ -1,5 +1,5 @@
 class ActivitySerializer < ActiveModel::Serializer
-  attributes :id, :user, :book, :friend, :mark
+  attributes :id, :user, :book, :friend, :mark, :post_comments_count, :likes_count
 
   def user
     FriendSerializer.new(object.user, {root: false} )
@@ -24,5 +24,13 @@ class ActivitySerializer < ActiveModel::Serializer
         MarkActivity.find(book_activity.actable_id).mark.value
       end
     end
+  end
+
+  def post_comments_count
+    object.post_comments.count
+  end
+
+  def likes_count
+    object.likes.count
   end
 end

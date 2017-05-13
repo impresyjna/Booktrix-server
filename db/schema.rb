@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511073250) do
+ActiveRecord::Schema.define(version: 20170513224950) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -169,6 +169,15 @@ ActiveRecord::Schema.define(version: 20170511073250) do
     t.index ["user_id"], name: "index_gifts_on_user_id"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["activity_id"], name: "index_likes_on_activity_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "mark_activities", force: :cascade do |t|
     t.integer  "mark_id"
     t.datetime "created_at", null: false
@@ -185,6 +194,16 @@ ActiveRecord::Schema.define(version: 20170511073250) do
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_marks_on_book_id"
     t.index ["user_id"], name: "index_marks_on_user_id"
+  end
+
+  create_table "post_comments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "activity_id"
+    t.text     "content"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["activity_id"], name: "index_post_comments_on_activity_id"
+    t.index ["user_id"], name: "index_post_comments_on_user_id"
   end
 
   create_table "reading_book_activities", force: :cascade do |t|
