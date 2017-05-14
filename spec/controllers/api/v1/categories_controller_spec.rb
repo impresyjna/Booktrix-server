@@ -165,7 +165,5 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
       it { should respond_with 422 }
     end
 
-    #TODO: Test for removing this when user book exists
-
   end
 end
