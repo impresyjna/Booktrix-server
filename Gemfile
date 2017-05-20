@@ -42,7 +42,6 @@ group :development, :test do
   gem "rspec-support", :github => "rspec/rspec-support"
   gem "rspec-rails", :github => "rspec/rspec-rails"
   gem 'rails-controller-testing'
-  gem 'pry-rails'
 end
 
 group :development do
