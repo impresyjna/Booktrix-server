@@ -50,7 +50,7 @@ describe Api::V1::UsersController do
         expect(user_response[:errors][:email]).to include "can't be blank"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with 409 }
     end
   end
 
@@ -90,7 +90,7 @@ describe Api::V1::UsersController do
         expect(user_response[:errors][:email]).to include "is invalid"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with 409 }
     end
   end
 
