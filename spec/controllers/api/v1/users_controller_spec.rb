@@ -90,7 +90,7 @@ describe Api::V1::UsersController do
         expect(user_response[:errors][:email]).to include "is invalid"
       end
 
-      it { should respond_with 409 }
+      it { should respond_with 422 }
     end
   end
 
