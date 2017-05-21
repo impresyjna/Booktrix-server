@@ -9,7 +9,7 @@ describe Api::V1::SessionsController do
     context "when the credentials are correct" do
 
       before(:each) do
-        tmp = { session: { email: user.email, password: "12345678" } }
+        tmp = { session: { login: user.login, password: "12345678" } }
         post :create, body: tmp.to_json
       end
 
@@ -24,7 +24,7 @@ describe Api::V1::SessionsController do
     context "when the credentials are incorrect" do
 
       before(:each) do
-        tmp = { session: { email: user.email, password: "invalidpassword" } }
+        tmp = { session: { login: user.login, password: "invalidpassword" } }
         post :create, body: tmp.to_json
       end
 
