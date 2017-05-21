@@ -3,7 +3,7 @@ class Api::V1::UsersController < ApplicationController
   respond_to :json
 
   def show
-    render json: User.find(params[:id]), adapter: :json, status: 200
+    render json: User.find(params[:id]), status: 200
   end
 
   def create
@@ -11,7 +11,7 @@ class Api::V1::UsersController < ApplicationController
     user_setting = UserSetting.create(user_setting_params)
     user.user_setting = user_setting
     if user.save
-      render json: user, adapter: :json, status: 201
+      render json: user, status: 201, location: [:api, user]
     else
       render json: { errors: user.errors }, status: 409
     end
@@ -21,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
     user = current_user
 
     if user.user_setting.update(user_setting_params) and user.update(user_params)
-      render json: user, status: 200, adapter: :json, location: [:api, user]
+      render json: user, status: 200, location: [:api, user]
     else
       render json: { errors: user.errors }, status: 422
     end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+
   namespace :api, defaults: { format: :json }, path: '/api/' do
     scope module: :v1 do
       resources :users, :only => [:show, :create, :update, :destroy]
@@ -26,4 +26,6 @@ Rails.application.routes.draw do
       resources :post_comments, :only => [:index, :create, :update, :destroy]
     end
   end
+
+  devise_for :users
 end
