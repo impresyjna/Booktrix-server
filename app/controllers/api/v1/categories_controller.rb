@@ -4,7 +4,7 @@ class Api::V1::CategoriesController < ApplicationController
 
   def index
     user = current_user
-    render json: user.categories, root: "categories", adapter: :json, status: 200
+    render json: user.categories, root: "categories", status: 200
   end
 
   def show
@@ -12,7 +12,7 @@ class Api::V1::CategoriesController < ApplicationController
     category = user.categories.where(id: params[:id]).first
 
     if category.present?
-      render json: category, adapter: :json, status: 200
+      render json: category, status: 200
     else
       head 404
     end
@@ -22,7 +22,7 @@ class Api::V1::CategoriesController < ApplicationController
     user = current_user
     category = user.categories.build(category_params)
     if category.save
-      render json: category, adapter: :json, status: 201
+      render json: category, status: 201
     else
       render json: {errors: category.errors}, status: 422
     end
@@ -33,7 +33,7 @@ class Api::V1::CategoriesController < ApplicationController
     category = user.categories.where(id: params[:id]).first
     if category.present?
       if category.update(category_params)
-        render json: category, adapter: :json, status: 200
+        render json: category, status: 200
       else
         render json: {errors: category.errors}, status: 422
       end
