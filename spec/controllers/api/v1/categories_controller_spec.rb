@@ -118,8 +118,6 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
       it "renders the json errors on whye the user could not be updated" do
         category_response = json_response
         expect(category_response[:errors][:name]).to include "can't be blank"
-        expect(category_response[:errors][:color]).to include "is invalid"
-        expect(category_response[:errors][:font_color]).to include "is invalid"
       end
 
       it { should respond_with 422 }
