@@ -15,16 +15,4 @@ RSpec.describe Category, type: :model do
 
   it { should belong_to(:user) }
 
-  describe "validates color" do
-    it { should allow_value('#ffffff').for(:color) }
-    it { should_not allow_value('ffffff').for(:color) }
-    it { should_not allow_value('').for(:color) }
-  end
-
-  describe "validates font_color" do
-    it { should allow_value('#ffffff').for(:font_color) }
-    it { should_not allow_value('ffffff').for(:font_color) }
-    it { should_not allow_value('').for(:font_color) }
-  end
-
 end
