@@ -5,14 +5,14 @@ class Api::V1::UserBooksController < ApplicationController
   def index
     user = current_user
     user_books = user.user_books.where(borrowed: params[:borrowed] == "true" ? true : false)
-    render json: user_books, root: "user_books",  adapter: :json, status: 200
+    render json: user_books, status: 200
   end
 
   def show
     user = current_user
     user_book = user.user_books.where(id: params[:id]).first
     if user_book.present?
-      render json: user_book, root: "user_book", adapter: :json, status: 200
+      render json: user_book, status: 200
     else
       head 404
     end
@@ -39,7 +39,7 @@ class Api::V1::UserBooksController < ApplicationController
     user_book = user.user_books.build(book_id: @book.id, category_id: params[:category])
     if user_book.save
       AddToLibraryActivity.create(user_id: user.id, book_id: @book.id)
-      render json: user_book, adapter: :json, status: 201
+      render json: user_book, status: 201
     else
       render json: { errors: user_book.errors }, status: 422
     end
@@ -53,7 +53,7 @@ class Api::V1::UserBooksController < ApplicationController
     user_book = user.user_books.where(id: params[:id]).first
     if user_book.present?
       if user_book.book.update(book_params) and user_book.update(category_id: params[:category])
-        render json: user_book, root: "user_book", adapter: :json, status: 200
+        render json: user_book, status: 200
       else
         render json: { errors: "Problem"}, status: 422
       end

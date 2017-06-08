@@ -13,7 +13,6 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
         @user_book = UserBook.create(book_id: @book.id, user_id: @user.id)
         get :index, borrowed: false
         user_books_response = json_response
-        expect(user_books_response).to have_key(:user_books)
       end
 
       it { should respond_with 200 }
@@ -25,7 +24,6 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
         @borrow = Borrow.create(user_book_id: @user_book.id, user_id: @user.id, state_id: 0)
         get :index, borrowed: true
         user_books_response = json_response
-        expect(user_books_response).to have_key(:user_books)
       end
 
       it { should respond_with 200 }
@@ -44,9 +42,8 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
       before(:each) do
         get :show, id: @user_book.id
         user_book_response = json_response
-        expect(user_book_response).to have_key(:user_book)
-        expect(user_book_response[:user_book]).to have_key(:book)
-        expect(user_book_response[:user_book]).to have_key(:category)
+        expect(user_book_response).to have_key(:book)
+        expect(user_book_response).to have_key(:category)
       end
       it { should respond_with 200 }
     end
@@ -77,9 +74,8 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
 
       it "renders the json representation for the user record just created" do
         user_book_response = json_response
-        expect(user_book_response).to have_key(:user_book)
-        expect(user_book_response[:user_book]).to have_key(:book)
-        expect(user_book_response[:user_book]).to have_key(:category)
+        expect(user_book_response).to have_key(:book)
+        expect(user_book_response).to have_key(:category)
       end
 
       it { should respond_with 201 }
@@ -93,10 +89,9 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
 
       it "renders the json representation for the user record just created" do
         user_book_response = json_response
-        expect(user_book_response).to have_key(:user_book)
-        expect(user_book_response[:user_book]).to have_key(:book)
-        expect(user_book_response[:user_book]).to have_key(:category)
-        expect(user_book_response[:user_book][:book][:id]).to eql @book.id
+        expect(user_book_response).to have_key(:book)
+        expect(user_book_response).to have_key(:category)
+        expect(user_book_response[:book][:id]).to eql @book.id
       end
 
       it { should respond_with 201 }
@@ -133,8 +128,8 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
 
       it "renders the json representation for the updated user" do
         user_book_response = json_response
-        expect(user_book_response[:user_book][:book][:title]).to eql "GoodOne"
-        expect(user_book_response[:user_book][:book][:isbn]).to eql @book.isbn
+        expect(user_book_response[:book][:title]).to eql "GoodOne"
+        expect(user_book_response[:book][:isbn]).to eql @book.isbn
       end
 
       it { should respond_with 200 }
