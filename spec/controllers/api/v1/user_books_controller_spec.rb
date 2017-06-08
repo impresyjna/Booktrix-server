@@ -72,6 +72,7 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
     context "when is successfully created" do
       before(:each) do
         @book_attributes = FactoryGirl.attributes_for :book
+        binding.pry
         post :create, {book: @book_attributes, category: @category.id}
       end
 
