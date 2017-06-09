@@ -3,7 +3,7 @@ class Book < ApplicationRecord
   has_many :marks
   ISBN10_REGEX = /^(?:\d[\ |-]?){9}[\d|X]$/i
   ISBN13_REGEX = /^(?:\d[\ |-]?){13}$/i
-  validates :isbn, numericality: true, uniqueness: true, allow_blank: true, allow_nil: true
+  validates :isbn, numericality: true, uniqueness: true, allow_blank: true, allow_nil: true, :on => :create
   validates :title, presence: true
 
   validate :check_length
