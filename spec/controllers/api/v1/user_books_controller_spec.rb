@@ -6,11 +6,14 @@ RSpec.describe Api::V1::UserBooksController, type: :controller do
       @user = FactoryGirl.create :user
       api_authorization_header @user.auth_token
       @book = FactoryGirl.create :book
+      @category = FactoryGirl.create :category
+      @category.user_id = @user.id
+      @category.save
     end
 
     context "get list of books in library" do
       before(:each) do
-        @user_book = UserBook.create(book_id: @book.id, user_id: @user.id)
+        @user_book = UserBook.create(book_id: @book.id, user_id: @user.id, category_id: @category.id)
         get :index, borrowed: false
         user_books_response = json_response
       end

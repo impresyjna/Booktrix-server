@@ -43,9 +43,10 @@ class Api::V1::BooksController < ApplicationController
         book.isbn = isbn
 
         #Image details
-        book.image = page.css('#cover').css('img').attr('src').to_s.gsub('//', '')
+        imageParts = page.css('#cover').css('img').attr('src').to_s.gsub('//', '').to_s.split('?')
+        book.image = "http://" + imageParts[0]
 
-        #Description details
+            #Description details
         book.description = page.css('#summary').text
 
         #Page count details

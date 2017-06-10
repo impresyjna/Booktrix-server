@@ -5,7 +5,7 @@ class Api::V1::UserBooksController < ApplicationController
   def index
     user = current_user
     user_books = user.user_books.where(borrowed: params[:borrowed] == "true" ? true : false)
-    render json: user_books, status: 200
+    render json: user_books, each_serializer: UserBookSerializer, status: 200
   end
 
   def show
@@ -29,7 +29,7 @@ class Api::V1::UserBooksController < ApplicationController
         @book = books.first
       else
         if params[:book][:isbn].present?
-          @book = books.where(isbn: params[:book][:isbn])
+          @book = books.find_by(isbn: params[:book][:isbn])
         else
           @book = books.first
         end
@@ -50,7 +50,7 @@ class Api::V1::UserBooksController < ApplicationController
 
   def update
     user = current_user
-    user_book = user.user_books.where(id: params[:id]).first
+    user_book = user.user_books.find_by(id: params[:id])
     if user_book.present?
       if user_book.book.update(book_params) and user_book.update(category_id: params[:category])
         render json: user_book, status: 200

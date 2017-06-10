@@ -6,7 +6,7 @@ class UserBookSerializer < ActiveModel::Serializer
   end
 
   def category
-    if object.category.present?
+    if Category.find_by(id: object.category_id).present?
       CategorySerializer.new(object.category, { root: false } )
     end
   end
