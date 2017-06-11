@@ -17,7 +17,15 @@ class Api::V1::FriendsController < ApplicationController
     end
   end
 
-  #TODO: Show friend
+  def show
+    user = current_user
+    friend = user.friends.find_by(id: params[:id])
+    if friend.present?
+      render json: friend, serializer: FriendShowSerializer, status: 200, location: [:api, user]
+    else
+      head 404
+    end
+  end
 
   def create
     user = current_user

@@ -38,6 +38,29 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
       end
       it { should respond_with 200 }
     end
+  end
+
+  describe "GET #show" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @friend = FactoryGirl.create :friend
+      @friend.friend_request(@user)
+      @user.accept_request(@friend)
+      @book = Book.create(title: "Aaa", author: "aaa", isbn: "1234567890123")
+      @user_book = UserBook.create(book_id: @book.id, user_id: @friend.id)
+      @gift = FactoryGirl.create :gift
+      @gift.user_id = @friend.id
+      @gift.save
+      api_authorization_header @user.auth_token
+      get :show, id: @friend.id
+    end
+
+    it "returns the information about a reporter on a hash" do
+      friend_response = json_response
+      expect(friend_response[:login]).to eql @friend.login
+    end
+
+    it { should respond_with 200 }
 
   end
 

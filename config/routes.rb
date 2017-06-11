@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     scope module: :v1 do
       resources :users, :only => [:show, :create, :update, :destroy]
       resources :sessions, :only => [:create, :destroy]
-      resources :friends, :only => [:index, :create]
+      resources :friends, :only => [:index, :create, :show]
       patch 'friends' => 'friends#update'
       delete 'friends' => 'friends#destroy'
       resources :categories, :only => [:index, :show, :create, :update, :destroy]
