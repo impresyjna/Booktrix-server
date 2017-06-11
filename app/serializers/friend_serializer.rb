@@ -1,5 +1,7 @@
 class FriendSerializer < ActiveModel::Serializer
-  attributes :id, :email, :login, :name, :surname
+  attributes :id, :email, :login, :name, :surname, :books_count
 
-  #TODO: Serializer with condition to show name and surname
+  def books_count
+    object.user_books.count
+  end
 end

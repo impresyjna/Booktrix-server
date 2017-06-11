@@ -11,7 +11,6 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
       before(:each) do
         get :index, {list: "index"}
         friend_response = json_response
-        expect(friend_response).to have_key(:friends)
       end
       it { should respond_with 200 }
     end
@@ -20,7 +19,6 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
       before(:each) do
         get :index, {list: "pending"}
         friend_response = json_response
-        expect(friend_response).to have_key(:friends)
       end
       it { should respond_with 200 }
     end
@@ -29,7 +27,6 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
       before(:each) do
         get :index, {list: "requested"}
         friend_response = json_response
-        expect(friend_response).to have_key(:friends)
       end
       it { should respond_with 200 }
     end
@@ -38,7 +35,6 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
       before(:each) do
         get :index, {list: "blocked"}
         friend_response = json_response
-        expect(friend_response).to have_key(:friends)
       end
       it { should respond_with 200 }
     end
@@ -56,7 +52,6 @@ RSpec.describe Api::V1::FriendsController, type: :controller do
         @friend = FactoryGirl.create :friend
         post :create, {friend: @friend.login}
         friend_response = json_response
-        expect(friend_response).to have_key(:friends)
       end
       it { should respond_with 201 }
     end
